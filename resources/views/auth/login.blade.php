@@ -67,8 +67,16 @@
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?
                                 </a>
+
+                                <a a class="btn btn-link" href="{{ url( 'auth/redirect') }}">
+                                    Login VK
+                                </a>
+
                             </div>
                         </div>
+
+
+
                     </form>
                 </div>
             </div>

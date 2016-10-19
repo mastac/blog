@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Connection;

@@ -6,7 +6,7 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\ActivationService;
+use App\Services\ActivationService;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -57,6 +57,8 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
         ]);
     }
 
@@ -71,6 +73,8 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'password' => bcrypt($data['password']),
         ]);
     }
@@ -78,10 +82,12 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
+
         event(new \Illuminate\Auth\Events\Registered($user = $this->create($request->all())));
 
         $this->activationService->sendActivationMail($user);
         auth()->logout();
+
         return redirect('/login')->with('status', 'We sent you an activation code. Check your email.');
     }
 }

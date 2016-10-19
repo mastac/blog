@@ -1,11 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Services;
 
-use App\ActivationRepository;
+use App\Repositories\ActivationRepository;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 
+use App\User;
+
+/**
+ * Class ActivationService
+ * @package App
+ */
 class ActivationService
 {
     protected $mailer;
@@ -14,12 +20,20 @@ class ActivationService
 
     protected $resendAfter = 24;
 
+    /**
+     * ActivationService constructor.
+     * @param Mailer $mailer
+     * @param \App\Repositories\ActivationRepository $activationRepo
+     */
     public function __construct(Mailer $mailer, ActivationRepository $activationRepo)
     {
         $this->mailer = $mailer;
         $this->activationRepo = $activationRepo;
     }
 
+    /**
+     * @param $user
+     */
     public function sendActivationMail($user)
     {
         if ($user->activated || !$this->shouldSend($user)) {
