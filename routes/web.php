@@ -33,3 +33,9 @@ Route::post('profile', 'ProfileController@store');
 Route::get('profile/changepassword', 'ProfileController@changepassword');
 Route::post('profile/changepassword', 'ProfileController@storechangepassword');
 
+/**
+ * Post
+ */
+Route::get('posts', 'PostController@index');
+Route::get('post/create', 'PostController@create');
+Route::post('post/store', 'PostController@store');

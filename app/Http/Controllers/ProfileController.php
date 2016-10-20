@@ -6,7 +6,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Http\Requests;
-
+use Illuminate\Contracts\Auth\Guard;
 use App\User;
 
 class ProfileController extends Controller
@@ -25,15 +25,21 @@ class ProfileController extends Controller
         $this->user = $user;
     }
 
-    public function index()
+    public function index(Guard $auth)
     {
-        $user = auth()->user();
-        return view('profile.profile', compact('user'))->with('user', $user);
+        return view('profile.profile')->with('user', $auth->user());
     }
 
-    public function store()
+    public function store(Guard $auth, Request $request)
     {
-        return 'profile store';
+
+        $auth->user()->name = $request->input('name');
+        $auth->user()->first_name = $request->input('first_name');
+        $auth->user()->last_name = $request->input('last_name');
+
+        $auth->user()->save();
+
+        return redirect('profile');
     }
 
     public function changepassword()
