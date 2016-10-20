@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'HomeController@index');
 
 Route::get('auth/redirect', 'Auth\SocialAuthController@redirect');
 Route::get('auth/callback', 'Auth\SocialAuthController@callback');
@@ -39,3 +37,5 @@ Route::post('profile/changepassword', 'ProfileController@storechangepassword');
 Route::get('posts', 'PostController@index');
 Route::get('post/create', 'PostController@create');
 Route::post('post/store', 'PostController@store');
+
+Route::get('post/edit/{id}', 'PostController@edit');

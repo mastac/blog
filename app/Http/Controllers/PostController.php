@@ -11,14 +11,23 @@ use App\Post;
 class PostController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $posts = \App\Post::whereUserId(\Auth::id())->get();
-
         return view('posts.list')->with('posts', $posts);
     }
 
@@ -29,7 +38,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.edit');
+        $tags = \App\Tag::pluck('name');
+        return view('posts.create')->with('tags', $tags);
     }
 
     /**
@@ -40,14 +50,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $ac = $request->only(['name', 'text']);
 
-        $post = new Post;
-        $post->name = $request->input('name');
-        $post->text = $request->input('text');
-        $post->user_id = \Auth::id();
+        $user_id = \Auth::id();
+        $attributes = $request->only(['name', 'text']);
+        $attributes = array_add($attributes,'user_id', $user_id);
 
-        $post->save();
+        if ($request->input('id')) {
+            Post::find($request->input('id'))->update($attributes);
+            $post = Post::find($request->input('id'));
+        } else {
+            $post = Post::create($attributes);
+        }
+
+        // Tags
+        $post->tags()->attach($request->input('tags'));
 
         return redirect('posts');
     }
@@ -71,7 +87,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = \App\Post::whereId($id)->first();
+        $tags = \App\Tag::pluck('name');
+        return view('posts.edit', ['post' => $post, 'tags' => $tags]);
     }
 
     /**

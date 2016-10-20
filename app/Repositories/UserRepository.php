@@ -15,7 +15,6 @@ use App\User;
 class UserRepository
 {
 
-
     public function checkMatchPassword($oldpassword)
     {
         return Hash::check($oldpassword, auth()->user()->getAuthPassword());

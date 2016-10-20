@@ -8,12 +8,18 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @if (Auth::guest())
-                        You are guest!
-                    @else
-                        You are logged in!
-                    @endif
+                    @forelse($posts as $post)
+                        <div style="margin: 20px;">
+                            <div>{{$post->name}}</div>
+                            <div>{{$post->text}}</div>
+                            <div>{{$post->user()->first()->first_name}} {{$post->user()->first()->last_name}}</div>
+                            <div>{{$post->created_at}}</div>
+                        </div>
+                    @empty
+                        Empty
+                    @endforelse
                 </div>
+
             </div>
         </div>
     </div>

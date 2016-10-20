@@ -11,18 +11,14 @@ use App\User;
 
 class ProfileController extends Controller
 {
-    /**
-     * @var UserRepository
-     */
-    private $user;
 
     /**
      * ProfileController constructor.
      * @param UserRepository $user
      */
-    public function __construct(UserRepository $user)
+    public function __construct()
     {
-        $this->user = $user;
+        $this->middleware('auth');
     }
 
     public function index(Guard $auth)

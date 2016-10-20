@@ -7,11 +7,14 @@
     @foreach($posts as $post)
 
         <div>
-            <div>
+            <h2>
                 {{$post->name}}
-            </div>
+            </h2>
             <div>
                 {{$post->text}}
+            </div>
+            <div>
+                <a href="{{url('post/edit/')}}/{{$post->id}}">Edit post</a>
             </div>
         </div>
 

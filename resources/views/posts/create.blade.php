@@ -6,21 +6,19 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit post</div>
+                <div class="panel-heading">Add post</div>
                 <div class="panel-body">
 
                 {!! Form::open(['url' => 'post/store', 'method' => 'POST']) !!}
-                {!! Form::token() !!}
-                {!! Form::hidden('id', $post->id) !!}
 
                 <div class="form-group">
                     {!! Form::label('Title') !!}
-                    {!! Form::text('name', $post->name, ['class' => 'form-control']) !!}
+                    {!! Form::text('name', '', ['class' => 'form-control']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('Text') !!}
-                    {!! Form::textarea('text', $post->text, ['class' => 'form-control']) !!}
+                    {!! Form::textarea('text', '', ['class' => 'form-control']) !!}
                 </div>
 
                 <div class="form-group">
