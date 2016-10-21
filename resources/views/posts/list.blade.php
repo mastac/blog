@@ -8,13 +8,19 @@
 
         <div>
             <h2>
-                {{$post->name}}
+                <a href="{{url('post', $post->id)}}">{{$post->name}}</a>
             </h2>
             <div>
                 {{$post->text}}
             </div>
             <div>
-                <a href="{{url('post/edit/')}}/{{$post->id}}">Edit post</a>
+                @foreach($post->tags()->pluck('name','id')->toArray() as $tag)
+                    <a href="{{url('tag',$tag)}}">{{$tag}}</a>
+                @endforeach
+            </div>
+            <div>
+                <a href="{{url('post/edit',$post->id)}}">Edit post</a>
+                <a href="{{url('post/delete',$post->id)}}">Delete post</a>
             </div>
         </div>
 

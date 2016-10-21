@@ -1,6 +1,8 @@
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue-2');
+//require('laravel-elixir-vue-2');
+
+// require('laravel-elixir-remove');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,6 +16,23 @@ require('laravel-elixir-vue-2');
  */
 
 elixir(mix => {
+
     mix.sass('app.scss')
-       .webpack('app.js');
+    mix.webpack('app.js');
+
+    mix.sass('blog.scss');
+
+    mix.styles([
+        // 'public/css/app.css',
+        'resources/assets/css/select2.min.css',
+        '../../../public/css/blog.css'
+    ],'public/css/blog.css');
+
+    mix.scripts([
+        // 'public/js/app.js',
+        'select2.min.js',
+        'blog.js',
+    ], 'public/js/blog.js');
+
+    mix.version(['public/css/blog.css','public/js/blog.js']);
 });

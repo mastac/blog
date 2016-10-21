@@ -24,8 +24,8 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('Tags') !!}
-                    {!! Form::select('tags[]', $tags, null, ['class' => 'form-contral', 'multiple']) !!}
+                    {!! Form::label('tag_list','Tags') !!}
+                    {!! Form::select('tag_list[]', $tags, $post->tag_list, ['class' => 'form-contral', 'multiple', 'id' => 'tag_list']) !!}
                 </div>
 
                 <div class="form-group">
@@ -40,5 +40,33 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+
+@section('script')
+
+    <script type="text/javascript">
+
+        /* Note: пока не работает добавление тэгов */
+        $('#tag_list').select2({
+            placeholder: 'Choose a tag',
+            allowClear: true,
+            /*ajax: {
+                url: "/tag/add",
+                cache: false,
+                dataType: 'json',
+                delay: 250,
+                data: function(params){
+                    q: params.term
+                },
+                prosessResult: function(data) {
+                    return { results: data }
+                }
+            }, */
+            tags: true
+        });
+
+    </script>
 
 @endsection

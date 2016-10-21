@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
-use App\Post;
 
 class PostController extends Controller
 {
@@ -21,13 +21,13 @@ class PostController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Post by own user_id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $posts = \App\Post::whereUserId(\Auth::id())->get();
+        $posts = Post::whereUserId(\Auth::id())->orderBy('created_at','desc')->get();
         return view('posts.list')->with('posts', $posts);
     }
 
@@ -38,12 +38,12 @@ class PostController extends Controller
      */
     public function create()
     {
-        $tags = \App\Tag::pluck('name');
+        $tags = Tag::pluck('name', 'id');
         return view('posts.create')->with('tags', $tags);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Post in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -51,19 +51,18 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        $user_id = \Auth::id();
         $attributes = $request->only(['name', 'text']);
-        $attributes = array_add($attributes,'user_id', $user_id);
 
         if ($request->input('id')) {
             Post::find($request->input('id'))->update($attributes);
             $post = Post::find($request->input('id'));
         } else {
+            $attributes = array_add($attributes,'user_id', auth()->id());
             $post = Post::create($attributes);
         }
 
-        // Tags
-        $post->tags()->attach($request->input('tags'));
+        // Tags sync
+        $post->tags()->sync($request->input('tag_list'));
 
         return redirect('posts');
     }
@@ -76,7 +75,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+
+        $comments = $post->comments;
+
+        return view('posts.show',compact('post', 'comments'));
     }
 
     /**
@@ -87,31 +90,39 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = \App\Post::whereId($id)->first();
-        $tags = \App\Tag::pluck('name');
-        return view('posts.edit', ['post' => $post, 'tags' => $tags]);
+
+        $post = Post::whereId($id)->whereUserId(auth()->id())->first();
+
+        if ($post) {
+
+            $tags = Tag::pluck('name', 'id');
+
+            return view('posts.edit', ['post' => $post, 'tags' => $tags]);
+        } else {
+            return abort('401', 'Unauthorized.');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Delete post
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|void
      */
     public function destroy($id)
     {
+        $post = Post::whereId($id)->whereUserId(auth()->id())->first();
+        if ($post) {
+            $post->destroy($id);
+            return back();
+        } else {
+            return abort('401', 'Unauthorized.');
+        }
+    }
+
+    public function test()
+    {
         //
     }
+
 }

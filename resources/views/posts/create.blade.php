@@ -22,8 +22,8 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('Tags') !!}
-                    {!! Form::select('tags[]', $tags, null, ['class' => 'form-contral', 'multiple']) !!}
+                    {!! Form::label('tag_list','Tags') !!}
+                    {!! Form::select('tag_list[]', $tags, null, ['class' => 'form-contral', 'multiple', 'id' => 'tag_list']) !!}
                 </div>
 
                 <div class="form-group">
@@ -38,5 +38,16 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+
+@section('script')
+
+    <script type="text/javascript">
+
+        $('#tag_list').select2();
+
+    </script>
 
 @endsection

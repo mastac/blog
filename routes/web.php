@@ -39,3 +39,19 @@ Route::get('post/create', 'PostController@create');
 Route::post('post/store', 'PostController@store');
 
 Route::get('post/edit/{id}', 'PostController@edit');
+Route::get('post/{id}', 'PostController@show');
+Route::get('post/delete/{id}', 'PostController@destroy');
+// For testing / temporary
+Route::get('test', 'PostController@test');
+
+/**
+ * Comment
+ */
+Route::post('comment/add', 'CommentController@store');
+Route::get('comments/{id}', 'CommentController@getComments');
+
+/**
+ * Tags
+ */
+
+Route::get('tag/{tag}', 'TagController@getPostByTag');

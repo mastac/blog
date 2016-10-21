@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ elixir('css/blog.css') }}">
 
     <!-- Scripts -->
     <script>
@@ -89,5 +90,9 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="{{ elixir('js/blog.js') }}"></script>
+
+    @yield('script')
+
 </body>
 </html>
