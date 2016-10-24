@@ -14,8 +14,6 @@
         </div>
     @endif
 
-
-
     {!! Form::open(['url' => 'profile', 'method' => 'POST']) !!}
 
     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

@@ -1,32 +1,65 @@
-@extends('layouts.app')
+@extends('layouts.blog')
+
+@section('title-page', 'Home page')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
-                    @forelse($posts as $post)
-                        <div style="margin: 20px;">
-                            <h2><a href="{{url('post', $post->id)}}">{{$post->name}}</a></h2>
-                            <div>{{$post->text}}</div>
-                            <div>{{$post->user()->first()->first_name}} {{$post->user()->first()->last_name}}</div>
-                            <div>{{$post->created_at}}</div>
-                            <div>
-                                @foreach($post->tags()->pluck('name','id')->toArray() as $tag)
-                                    <a href="{{url('tag',$tag)}}">{{$tag}}</a>
-                                @endforeach
-                            </div>
-                        </div>
-                    @empty
-                        Empty
-                    @endforelse
-                </div>
+    @forelse($posts as $post)
 
-            </div>
-        </div>
-    </div>
-</div>
+        @include('partials.post', ['post' => $post])
+
+    @empty
+
+        <article class="wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">Empty</article>
+
+    @endforelse
+
+@endsection
+
+@section('script')
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var win = $(window);
+
+            var limit = 5;
+
+            var offset = 5;
+
+            var enabledScroll = true;
+
+            var is_run = false;
+
+            // Each time the user scrolls
+            win.scroll(function () {
+                if (enabledScroll) {
+                    // End of the document reached?
+                    console.log(($(document).height() - win.height()), win.scrollTop() + 370);
+                    if (($(document).height() - win.height()) < (win.scrollTop() + 370)) {
+                        if(!is_run) {
+                            is_run = true;
+                            $.ajax({
+                                url: '/posts/getposttoscroll/' + offset + '/' + limit,
+                                dataType: 'html',
+                                success: function (html) {
+                                    if (html) {
+                                        offset = offset + limit;
+                                        $('#posts').append(html);
+                                        is_run = false;
+                                    } else {
+                                        enabledScroll = false;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }// enabledScroll
+            });
+
+        })
+
+    </script>
+
 @endsection

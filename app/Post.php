@@ -45,7 +45,10 @@ class Post extends Model
 
         $posts = Post::whereHas('tags', function ($query) use ($tagIds){
             $query->whereIn('tags.id',$tagIds);
-        })->get();
+        })->withCount('tags')
+            ->orderBy('tags_count', 'desc')
+            ->take(5)
+            ->get();
 
         return $posts;
     }

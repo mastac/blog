@@ -192,7 +192,12 @@ return [
         /**
          * http://socialiteproviders.github.io/providers/vkontakte/
          */
-        SocialiteProviders\Manager\ServiceProvider::class
+        SocialiteProviders\Manager\ServiceProvider::class,
+
+        /**
+         * Composer service provider
+         */
+        App\Providers\ComposerServiceProvider::class,
     ],
 
     /*

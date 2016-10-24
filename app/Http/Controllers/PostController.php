@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'show']);
     }
 
     /**
@@ -62,7 +62,22 @@ class PostController extends Controller
         }
 
         // Tags sync
-        $post->tags()->sync($request->input('tag_list'));
+        $tagLists = [];
+        foreach (request('tag_list') as $key => $tagItem) {
+
+            if(intval($tagItem) == 0) {
+                if( Tag::whereName($tagItem)->count() == 0 ) {
+                    $tag = Tag::create(['name' => $tagItem]);
+                    array_push($tagLists, $tag->id);
+                } else {
+                    $tag = Tag::whereName($tagItem)->first();
+                    array_push($tagLists, $tag->id);
+                }
+            } else {
+                array_push($tagLists, $tagItem);
+            }
+        }
+        $post->tags()->sync($tagLists);
 
         return redirect('posts');
     }
@@ -120,9 +135,19 @@ class PostController extends Controller
         }
     }
 
+    public function getPostToScroll($offset, $count)
+    {
+        $posts = Post::take($count)->skip($offset)->get();
+        return view('partials.scroll', ['posts' => $posts]);
+    }
+
     public function test()
     {
-        //
+        $post_id = 12;
+
+//        $z = (new Post)->getRelatedPosts($post_id);
+
+//        dd($z);
     }
 
 }

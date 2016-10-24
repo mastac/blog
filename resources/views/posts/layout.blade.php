@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.blog')
 
 @section('content')
 
-    <div class="container">
-        @yield('posts-content')
-    </div>
+
+    @yield('posts-content')
+
 
 @endsection

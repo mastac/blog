@@ -12,7 +12,9 @@ class TagController extends Controller
 {
     public function store()
     {
-        //
+        $tagTerm = request()->input('q');
+        $x = Tag::where('name','like',$tagTerm .'%')->get()->pluck('name', 'id')->toJson();
+        return $x;
     }
 
     public function getPostByTag($tag)
