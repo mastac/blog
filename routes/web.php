@@ -42,8 +42,9 @@ Route::get('post/edit/{id}', 'PostController@edit');
 Route::get('post/{id}', 'PostController@show');
 Route::get('post/delete/{id}', 'PostController@destroy');
 Route::get('posts/getposttoscroll/{offset}/{count}', 'PostController@getPostToScroll');
+Route::get('search', 'PostController@search');
+Route::get('user/{name}', 'PostController@getPostByUserName');
 
-// For testing / temporary
 Route::get('test', 'PostController@test');
 
 /**
@@ -55,6 +56,5 @@ Route::get('comments/{id}', 'CommentController@getComments');
 /**
  * Tags
  */
-
 Route::get('tag/add', 'TagController@store');
 Route::get('tag/{tag}', 'TagController@getPostByTag');

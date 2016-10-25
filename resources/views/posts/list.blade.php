@@ -1,13 +1,17 @@
-@extends('posts.layout')
+@extends('layouts.blog')
 
 @section('title-page', 'My Posts')
 
-@section('posts-content')
+@section('content')
 
-    @foreach($posts as $post)
+    @forelse($posts as $post)
 
         @include('partials.post', ['post' => $post])
 
-    @endforeach
+    @empty
+
+        Empty
+
+    @endforelse
 
 @endsection

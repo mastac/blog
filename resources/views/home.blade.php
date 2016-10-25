@@ -36,7 +36,6 @@
             win.scroll(function () {
                 if (enabledScroll) {
                     // End of the document reached?
-                    console.log(($(document).height() - win.height()), win.scrollTop() + 370);
                     if (($(document).height() - win.height()) < (win.scrollTop() + 370)) {
                         if(!is_run) {
                             is_run = true;

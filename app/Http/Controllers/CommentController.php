@@ -12,18 +12,13 @@ class CommentController extends Controller
 
     public function getComments($id)
     {
-        return response()->json(Comment::wherePostId($id)->get()->toJson());
+        $comments = Comment::wherePostId($id)->get();
+        return view('partials.comments')->with('comments', $comments);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $comment = Comment::create([
-            'post_id' => request('post_id'),
-            'name' => request('name'),
-            'email' => request('email'),
-            'comment' => request('comment')
-        ]);
-
+        Comment::create($request->all());
         return back();
     }
 }

@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::whereUserId(\Auth::id())->orderBy('created_at','desc')->get();
+        $posts =  \Auth::user()->posts()->withCount('comments')->orderBy('created_at','desc')->get();
         return view('posts.list')->with('posts', $posts);
     }
 
@@ -38,7 +38,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $tags = Tag::pluck('name', 'id');
+        $tags = Tag::pluck('name', 'name');
         return view('posts.create')->with('tags', $tags);
     }
 
@@ -50,7 +50,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
+//        dd($request->has('tag_list'));
         $attributes = $request->only(['name', 'text']);
 
         if ($request->input('id')) {
@@ -62,22 +62,13 @@ class PostController extends Controller
         }
 
         // Tags sync
-        $tagLists = [];
-        foreach (request('tag_list') as $key => $tagItem) {
-
-            if(intval($tagItem) == 0) {
-                if( Tag::whereName($tagItem)->count() == 0 ) {
-                    $tag = Tag::create(['name' => $tagItem]);
-                    array_push($tagLists, $tag->id);
-                } else {
-                    $tag = Tag::whereName($tagItem)->first();
-                    array_push($tagLists, $tag->id);
-                }
-            } else {
-                array_push($tagLists, $tagItem);
+        if ($request->has('tag_list')) {
+            $tagLists = [];
+            foreach ($request->input('tag_list') as $tag) {
+                $tagLists[] = Tag::firstOrCreate(['name' => $tag])->id;
             }
+            $post->tags()->sync($tagLists);
         }
-        $post->tags()->sync($tagLists);
 
         return redirect('posts');
     }
@@ -110,7 +101,7 @@ class PostController extends Controller
 
         if ($post) {
 
-            $tags = Tag::pluck('name', 'id');
+            $tags = Tag::pluck('name', 'name');
 
             return view('posts.edit', ['post' => $post, 'tags' => $tags]);
         } else {
@@ -137,17 +128,31 @@ class PostController extends Controller
 
     public function getPostToScroll($offset, $count)
     {
-        $posts = Post::take($count)->skip($offset)->get();
+        $posts = Post::withCount('comments')->take($count)->skip($offset)->get();
         return view('partials.scroll', ['posts' => $posts]);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('q');
+        $posts = Post::withCount('comments')->where(function($query) use ($search){
+            $query->where('name','like', '%'.$search.'%')
+                ->orWhere('text','like', '%'.$search.'%');
+        })->orderBy('created_at','desc')->get();
+        return view('posts.list')->with('posts', $posts);
+    }
+
+    public function getPostByUserName($name)
+    {
+        $posts = Post::whereHas('user',function($query) use ($name){
+             $query->where('users.name','=',$name);
+        })->get();
+
+        return view('posts.list')->with('posts', $posts);
     }
 
     public function test()
     {
-        $post_id = 12;
-
-//        $z = (new Post)->getRelatedPosts($post_id);
-
-//        dd($z);
+        //
     }
-
 }

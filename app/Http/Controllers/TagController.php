@@ -13,8 +13,7 @@ class TagController extends Controller
     public function store()
     {
         $tagTerm = request()->input('q');
-        $x = Tag::where('name','like',$tagTerm .'%')->get()->pluck('name', 'id')->toJson();
-        return $x;
+        return Tag::where('name','like',$tagTerm .'%')->get()->pluck('name', 'id');
     }
 
     public function getPostByTag($tag)
@@ -23,6 +22,6 @@ class TagController extends Controller
         abort_if($tag === null, 404);
 
         $posts = $tag->posts()->orderBy('created_at','desc')->get();
-        return view('home')->with('posts', $posts);
+        return view('posts.list')->with('posts', $posts);
     }
 }

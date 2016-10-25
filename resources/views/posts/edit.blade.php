@@ -1,8 +1,8 @@
-@extends('posts.layout')
+@extends('layouts.blogfull')
 
 @section('title-page', 'Edit Post')
 
-@section('posts-content')
+@section('content')
 
     {!! Form::open(['url' => 'post/store', 'method' => 'POST']) !!}
     {!! Form::token() !!}

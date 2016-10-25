@@ -23,7 +23,7 @@ class ProfileController extends Controller
 
     public function index(Guard $auth)
     {
-        return view('profile.profile')->with('user', $auth->user());
+        return view('profile.profile')->with('user', $auth->user())->with('request', request());
     }
 
     public function store(Guard $auth, Request $request)
@@ -40,7 +40,7 @@ class ProfileController extends Controller
 
     public function changepassword()
     {
-        return view('profile.changepassword');
+        return view('profile.changepassword')->with('active', 'changepassword')->with('request', request());
     }
 
     public function storechangepassword(UserRepository $userRepository, Request $request)

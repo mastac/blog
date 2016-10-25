@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::all()->take(5);
+        $posts = Post::withCount('comments')->take(5)->get();
         return view('home')->with('posts', $posts);
     }
 }

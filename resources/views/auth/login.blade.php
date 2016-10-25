@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.blogfull')
+
+@section('title-page', 'Login')
 
 @section('content')
 <div class="container">
@@ -7,17 +9,21 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
                     @endif
+
                     @if (session('warning'))
                         <div class="alert alert-warning">
                             {{ session('warning') }}
                         </div>
                     @endif
+
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -60,22 +66,20 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-dafault btn-details">
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                                <a class="btn btn-dafault btn-details" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?
                                 </a>
 
-                                <a a class="btn btn-link" href="{{ url( 'auth/redirect') }}">
+                                <a class="btn btn-dafault btn-details" href="{{ url( 'auth/redirect') }}">
                                     Login VK
                                 </a>
 
                             </div>
                         </div>
-
-
 
                     </form>
                 </div>

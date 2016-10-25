@@ -31,25 +31,27 @@ class Post extends Model
      */
     public function getTagListAttribute()
     {
-        return $this->tags->pluck('id')->toArray();
+        return $this->tags->pluck('name')->toArray();
     }
 
-    /**
-     * Get relation posts by tags of given post_id
-     * @param $post_id
-     * @return mixed
-     */
-    public function getRelatedPosts($post_id)
+    public static function getRelatedPosts($post_id = null)
     {
-        $tagIds = Post::find($post_id)->tags()->get()->pluck('id')->all();
+        $tagIds = null;
+        if (!empty($tagIds)) {
+            $tagIds = Post::find($post_id)->tags()->get()->pluck('id')->all();
+        }
 
         $posts = Post::whereHas('tags', function ($query) use ($tagIds){
-            $query->whereIn('tags.id',$tagIds);
-        })->withCount('tags')
+            if (!is_null($tagIds)){
+                $query->whereIn('tags.id',$tagIds);
+            }
+        })
+            ->withCount('tags')
             ->orderBy('tags_count', 'desc')
             ->take(5)
             ->get();
 
         return $posts;
     }
+
 }
