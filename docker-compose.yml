@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+
+### Web Container ##############################################################
+
+    web:
+        build: ./docker/web
+        command: bash ./docker/web/start.sh
+        ports:
+            - "8000:80"
+        volumes:
+            - .:/var/www/html
+            - ./docker/data/apache2:/var/log/apache2
+        links:
+            - mysql
+        tty: true
+
+### MySQL Container ############################################################
+
+    mysql:
+        image: mysql
+        ports:
+            - "3306"
+        environment:
+            MYSQL_DATABASE: blog
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        volumes:
+            - ./docker/data/mysql:/var/lib/mysql
+
+### phpMyAdmin Container #######################################################
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_HOST=mysql
+            - PMA_USER=root
+        ports:
+            - "8080:80"
+        links:
+            - mysql
