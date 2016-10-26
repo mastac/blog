@@ -2,6 +2,12 @@
 
 @section('title-page', $post->name)
 
+@section('global_page_header')
+
+    @include('partials.global_page_header')
+
+@endsection
+
 @section('content')
 
 <section class="single-post">
@@ -23,9 +29,27 @@
     </div>
     @endif
 
+    @if (Auth::id() == $post->user_id)
+    <div id="actions">
+        <a href="{{url('post/edit',$post->id)}}" class="btn btn-dafault btn-details">Edit post</a>
+        <a href="{{url('post/delete',$post->id)}}" class="btn btn-dafault btn-details btn-delete">Delete post</a>
+    </div>
+    @endif
+
     <div id="comments"><img src="/images/loading.gif" alt="Loading..."></div>
 
     <div class="post-comment">
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <h3>Leave a Reply</h3>
         {!! Form::open(['url' => 'comment/add', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form']) !!}
         {!! Form::hidden('post_id', $post->id) !!}

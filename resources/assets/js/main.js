@@ -40,25 +40,19 @@
 }(jQuery));
 
 
-
 jQuery(document).ready(function(){
-	"use strict";
-	new WOW().init();
+    "use strict";
+    new WOW().init();
 
 
-(function(){
- jQuery('.smooth-scroll').scrollingTo();
-}());
+    (function(){
+        jQuery('.smooth-scroll').scrollingTo();
+    }());
 
 });
 
 
-
-
 $(document).ready(function(){
-
-
-
 
     $(window).scroll(function () {
         if ($(window).scrollTop() > 50) {
@@ -71,7 +65,7 @@ $(document).ready(function(){
     });
 
     $("#clients-logo").owlCarousel({
- 
+
         itemsCustom : false,
         pagination : false,
         items : 5,
@@ -80,7 +74,6 @@ $(document).ready(function(){
     })
 
 });
-
 
 
 // fancybox
@@ -95,8 +88,8 @@ $(".fancybox").fancybox({
 
     closeClick : true,
     helpers : {
-        title : { 
-            type: 'inside' 
+        title : {
+            type: 'inside'
         },
         overlay : {
             css : {

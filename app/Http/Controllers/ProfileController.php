@@ -21,13 +21,19 @@ class ProfileController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Guard $auth)
+    public function index(Guard $auth, Request $request)
     {
-        return view('profile.profile')->with('user', $auth->user())->with('request', request());
+        return view('profile.profile')->with('user', $auth->user())->with('request', $request);
     }
 
     public function store(Guard $auth, Request $request)
     {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+        ]);
 
         $auth->user()->name = $request->input('name');
         $auth->user()->first_name = $request->input('first_name');
@@ -38,7 +44,7 @@ class ProfileController extends Controller
         return redirect('profile');
     }
 
-    public function changepassword()
+    public function changepassword(Request $request)
     {
         return view('profile.changepassword')->with('active', 'changepassword')->with('request', request());
     }

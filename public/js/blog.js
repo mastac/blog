@@ -2282,25 +2282,19 @@ jQuery(document).ready(function($){
 }(jQuery));
 
 
-
 jQuery(document).ready(function(){
-	"use strict";
-	new WOW().init();
+    "use strict";
+    new WOW().init();
 
 
-(function(){
- jQuery('.smooth-scroll').scrollingTo();
-}());
+    (function(){
+        jQuery('.smooth-scroll').scrollingTo();
+    }());
 
 });
 
 
-
-
 $(document).ready(function(){
-
-
-
 
     $(window).scroll(function () {
         if ($(window).scrollTop() > 50) {
@@ -2313,7 +2307,7 @@ $(document).ready(function(){
     });
 
     $("#clients-logo").owlCarousel({
- 
+
         itemsCustom : false,
         pagination : false,
         items : 5,
@@ -2322,7 +2316,6 @@ $(document).ready(function(){
     })
 
 });
-
 
 
 // fancybox
@@ -2337,8 +2330,8 @@ $(".fancybox").fancybox({
 
     closeClick : true,
     helpers : {
-        title : { 
-            type: 'inside' 
+        title : {
+            type: 'inside'
         },
         overlay : {
             css : {
@@ -2365,14 +2358,11 @@ if(this.$element.prop("multiple"))this.current(function(d){var e=[];a=[a],a.push
 
 $(function(){
 
-    // $.getJSON('/comments/2', function(data) {
-    //     data = jQuery.parseJSON(data);
-    //
-    //     $.each( data, function( key, val ) {
-    //
-    //     });
-    //
-    // });
+    // Show confimation
+    $('.btn-delete').click(function(event){
+        var is_sure = confirm("Are you sure?");
+        return is_sure;
+    });
 
 });
 //# sourceMappingURL=blog.js.map

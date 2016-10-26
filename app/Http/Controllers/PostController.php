@@ -17,7 +17,9 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'show']);
+        $this->middleware('auth', ['except' => [
+            'show', 'getPostByUserName', 'getPostToScroll', 'search'
+        ]]);
     }
 
     /**
@@ -50,14 +52,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->has('tag_list'));
-        $attributes = $request->only(['name', 'text']);
+
+        $this->validate($request, [
+            'name' => 'required',
+            'text' => 'required',
+        ]);
 
         if ($request->input('id')) {
-            Post::find($request->input('id'))->update($attributes);
+            Post::find($request->input('id'))->update($request->all());
             $post = Post::find($request->input('id'));
         } else {
-            $attributes = array_add($attributes,'user_id', auth()->id());
+            $attributes = array_add($request->all(),'user_id', auth()->id());
             $post = Post::create($attributes);
         }
 

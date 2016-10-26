@@ -1,13 +1,10 @@
 
 $(function(){
 
-    // $.getJSON('/comments/2', function(data) {
-    //     data = jQuery.parseJSON(data);
-    //
-    //     $.each( data, function( key, val ) {
-    //
-    //     });
-    //
-    // });
+    // Show confimation
+    $('.btn-delete').click(function(event){
+        var is_sure = confirm("Are you sure?");
+        return is_sure;
+    });
 
 });

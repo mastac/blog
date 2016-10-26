@@ -30,7 +30,7 @@
 
         @if (Auth::id() == $post->user_id)
             <a href="{{url('post/edit',$post->id)}}" class="btn btn-dafault btn-details">Edit post</a>
-            <a href="{{url('post/delete',$post->id)}}" class="btn btn-dafault btn-details">Delete post</a>
+            <a href="{{url('post/delete',$post->id)}}" class="btn btn-dafault btn-details btn-delete">Delete post</a>
         @endif
 
     </div>

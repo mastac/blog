@@ -30,10 +30,10 @@ elixir(mix => {
         'resources/assets/css/owl.carousel.css',
         'resources/assets/css/owl.theme.css',
         'resources/assets/css/jquery.fancybox.css',
-        'resources/assets/css/main.css',
         'resources/assets/css/responsive.css',
-
         'resources/assets/css/select2.min.css',
+
+        'resources/assets/css/main.css',
 
     ],'public/css/blog.css');
 

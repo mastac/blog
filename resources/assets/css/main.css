@@ -906,7 +906,7 @@ article {
 .blog-content .blog-meta p {
   margin-top: 20px;
 }
-.blog-content .btn-details {
+/*.blog-content */.btn-details {
   color: #02bdd5;
   padding: 0;
   background: #02bdd5;
@@ -1090,6 +1090,10 @@ article {
   width: 100%;
 }
 
-#tag-list {
-  padding: 50px 0;
+#tag-list, #comments, #actions {
+  padding: 50px 0 0;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 1px solid #aaa;
 }

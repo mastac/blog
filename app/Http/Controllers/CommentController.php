@@ -18,6 +18,11 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'comment' => 'required',
+        ]);
+
         Comment::create($request->all());
         return back();
     }

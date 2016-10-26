@@ -1,5 +1,7 @@
 @extends('profile.layout')
 
+@section('title-page', 'Change password')
+
 @section('profile-content')
 
     @if (session()->has('flash_message_success'))

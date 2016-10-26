@@ -11,10 +11,11 @@
         </form>
     </div>
 
+    @if (Request::is('post/*') && \App\Post::getRelatedPosts($post->id)->count() > 0)
     <div class="recent-post widget">
-        <h3>Recent Posts</h3>
+        <h3>Related Posts</h3>
         <ul>
-            @foreach(\App\Post::getRelatedPosts() as $relatedPost)
+            @foreach(\App\Post::getRelatedPosts($post->id) as $relatedPost)
             <li>
                 <a href="{{url('post', $relatedPost->id)}}">{{$relatedPost->name}}</a><br>
                 <time>{{$relatedPost->created_at}}</time>
@@ -22,5 +23,6 @@
             @endforeach
         </ul>
     </div>
+    @endif
 
 </div>

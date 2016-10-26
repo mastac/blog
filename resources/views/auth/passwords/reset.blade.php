@@ -1,5 +1,13 @@
 @extends('layouts.blogfull')
 
+@section('title-page', 'Reset password')
+
+@section('global_page_header')
+
+    @include('partials.global_page_header')
+
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">

@@ -1,47 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Be right back.</title>
+@extends('layouts.blogfull')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                color: #B0BEC5;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato', sans-serif;
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 72px;
-                margin-bottom: 40px;
-            }
-        </style>
-    </head>
-    <body>
+@section('content')
+    <section class="moduler wrapper_404">
         <div class="container">
-            <div class="content">
-                <div class="title">Unauthorized</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s" >401</h1>
+                        <h2 class="wow fadeInUp animated" data-wow-delay=".6s">Opps! You have some problems with permission</h2>
+                        <a href="{{url('/')}}" class="btn btn-dafault btn-home wow fadeInUp animated" data-wow-delay="1.1s">Go Home</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </body>
-</html>
+    </section>
+@endsection

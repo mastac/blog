@@ -10,10 +10,10 @@ use App\Http\Requests;
 
 class TagController extends Controller
 {
-    public function store()
+
+    public function __construct()
     {
-        $tagTerm = request()->input('q');
-        return Tag::where('name','like',$tagTerm .'%')->get()->pluck('name', 'id');
+        $this->middleware('auth',['except' => 'getPostByTag']);
     }
 
     public function getPostByTag($tag)

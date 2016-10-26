@@ -2,6 +2,12 @@
 
 @section('title-page', 'Home page')
 
+@section('global_page_header')
+
+    @include('partials.global_page_header')
+
+@endsection
+
 @section('content')
 
     @forelse($posts as $post)
