@@ -4598,4 +4598,10 @@ article {
 .select2-container--default.select2-container--focus .select2-selection--multiple {
   border: 1px solid #aaa;
 }
+
+.blog-content .blog-meta span.last:after{
+  content: "";
+  padding: 0;
+}
+
 /*# sourceMappingURL=blog.css.map */

@@ -41,7 +41,13 @@ Route::post('post/store', 'PostController@store');
 Route::get('post/edit/{id}', 'PostController@edit');
 Route::get('post/{id}', 'PostController@show');
 Route::get('post/delete/{id}', 'PostController@destroy');
+/**
+ * Need scroll to home, tag, user, search
+ */
 Route::get('posts/getposttoscroll/{offset}/{count}', 'PostController@getPostToScroll');
+Route::get('posts/{entry}/scroll/{offset}/{count}', 'PostController@scroll');
+Route::get('posts/{entry}/{param}/scroll/{offset}/{count}', 'PostController@scroll');
+
 Route::get('search', 'PostController@search');
 Route::get('user/{name}', 'PostController@getPostByUserName');
 

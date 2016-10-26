@@ -137,6 +137,24 @@ class PostController extends Controller
         return view('partials.scroll', ['posts' => $posts]);
     }
 
+    public function scroll($offset, $count, $entry, $param = '')
+    {
+//        switch ($entry) {
+//            case 'user':
+//
+//                break;
+//        }
+//        // user
+//        $posts = Post::whereHas('user',function($query) use ($param){
+//            $query->where('users.name','=',$param);
+//        })->take($count)->skip($offset)->get();
+
+        // home
+        $posts = Post::withCount('comments')->take($count)->skip($offset)->get();
+
+        return view('partials.scroll', ['posts' => $posts]);
+    }
+
     public function search(Request $request)
     {
         $search = $request->input('q');
@@ -144,20 +162,16 @@ class PostController extends Controller
             $query->where('name','like', '%'.$search.'%')
                 ->orWhere('text','like', '%'.$search.'%');
         })->orderBy('created_at','desc')->get();
-        return view('posts.list')->with('posts', $posts);
+        return view('posts.list')->with('posts', $posts)->with('title_page', 'Search: ' . $search);
     }
 
     public function getPostByUserName($name)
     {
         $posts = Post::whereHas('user',function($query) use ($name){
              $query->where('users.name','=',$name);
-        })->get();
+        })->take(5)->get();
 
-        return view('posts.list')->with('posts', $posts);
+        return view('posts.list')->with('posts', $posts)->with('title_page', 'Posts of user ' . $name);
     }
 
-    public function test()
-    {
-        //
-    }
 }

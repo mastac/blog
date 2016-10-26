@@ -14,7 +14,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::withCount('comments')->orderBy('created_at', 'desc')->take(5)->get();
+        $posts = Post::withCount('comments')
+            ->with('tags')
+            ->with('comments')
+            ->orderBy('created_at', 'desc')->take(5)->get();
+//        dd($posts->tags());
         return view('home')->with('posts', $posts);
     }
 }

@@ -12,9 +12,9 @@
 
 <section class="single-post">
 
-    <div class="post-img">
-        <img class="img-responsive" alt="" src="http://loremflickr.com/1140/470">
-    </div>
+    {{--<div class="post-img">--}}
+        {{--<img class="img-responsive" alt="" src="http://loremflickr.com/1140/470">--}}
+    {{--</div>--}}
 
     <div class="post-content">
         {!! $post->text  !!}

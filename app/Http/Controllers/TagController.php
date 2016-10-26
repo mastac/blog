@@ -21,7 +21,10 @@ class TagController extends Controller
         $tag = Tag::whereName($tag)->first();
         abort_if($tag === null, 404);
 
-        $posts = $tag->posts()->orderBy('created_at','desc')->get();
+        $posts = $tag->posts()->withCount('comments')
+            ->orderBy('created_at','desc')->get();
+
+
         return view('posts.list')->with('posts', $posts);
     }
 }

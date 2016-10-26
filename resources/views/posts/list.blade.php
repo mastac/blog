@@ -1,6 +1,6 @@
 @extends('layouts.blog')
 
-@section('title-page', 'My Posts')
+@section('title-page', (isset($title_page) ? $title_page : 'My Posts'))
 
 @section('global_page_header')
 
