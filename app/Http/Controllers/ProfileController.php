@@ -57,7 +57,6 @@ class ProfileController extends Controller
             'newpassword' => 'required|min:6|confirmed',
         ]);
 
-        // TODO: Имеет ли смысол создавать валидатор для проверки пароля?
         if ($userRepository->checkMatchPassword($request->input('oldpassword'))) {
             $message = $userRepository->changePassword($request->input('oldpassword'), $request->input('newpassword'));
 

@@ -87,7 +87,6 @@ Call To Action Section Start
                         <a href="contact.html" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="300ms">Contact With Me</a>
                 </div>
             </div>
-
         </div>
     </div>
 </section>

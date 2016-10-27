@@ -1,0 +1,1 @@
+<div id="loading"><img src="/images/loading.gif" alt="Loading..."></div>

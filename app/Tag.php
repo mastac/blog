@@ -18,4 +18,10 @@ class Tag extends Model
     {
         return $this->belongsToMany(Post::class);
     }
+
+    public function getPostsByTagName($tag)
+    {
+        return $this->whereName($tag)->firstOrFail()->posts();
+    }
+
 }

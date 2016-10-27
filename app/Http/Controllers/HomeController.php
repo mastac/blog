@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PostScrollService;
 use Illuminate\Http\Request;
 use App\Post;
 
 class HomeController extends Controller
 {
+    /**
+     * @var PostScrollService
+     */
+    private $postScroll;
+
+    public function __construct(PostScrollService $postScroll)
+    {
+        $this->postScroll = $postScroll;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -14,11 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::withCount('comments')
-            ->with('tags')
-            ->with('comments')
-            ->orderBy('created_at', 'desc')->take(5)->get();
-//        dd($posts->tags());
-        return view('home')->with('posts', $posts);
+        $this->postScroll->setSkip(0);
+        $posts = $this->postScroll->scroll((new Post));
+        return view('home')->with('posts', $posts)->with('page_title', 'Home page');
+    }
+
+    public function scroll($skip)
+    {
+        $this->postScroll->setSkip($skip);
+        $posts = $this->postScroll->scroll((new Post));
+
+        return view('partials.scroll', ['posts' => $posts]);
     }
 }

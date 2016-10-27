@@ -5,9 +5,7 @@
 
         var win = $(window);
 
-        var limit = 5;
-
-        var offset = 5;
+        var page = 1;
 
         var enabledScroll = true;
 
@@ -21,11 +19,11 @@
                     if(!is_run) {
                         is_run = true;
                         $.ajax({
-                            url: '/posts/{{$entry}}/scroll/' + offset + '/' + limit,
+                            url: '{{$scroll_part_url}}/scroll/' + page,
                             dataType: 'html',
                             success: function (html) {
                                 if (html) {
-                                    offset = offset + limit;
+                                    page += 1;
                                     $('#posts').append(html);
                                     is_run = false;
                                 } else {

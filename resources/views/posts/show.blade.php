@@ -1,20 +1,12 @@
-@extends('layouts.blog')
-
-@section('title-page', $post->name)
-
-@section('global_page_header')
-
-    @include('partials.global_page_header')
-
-@endsection
+@extends('layouts.single_post')
 
 @section('content')
 
-<section class="single-post">
-
-    {{--<div class="post-img">--}}
-        {{--<img class="img-responsive" alt="" src="http://loremflickr.com/1140/470">--}}
-    {{--</div>--}}
+    @if( !empty($post->image))
+    <div class="post-img">
+        <img class="img-responsive" alt="" src="/storage/{{\Auth::id()}}/{{$post->image}}">
+    </div>
+    @endif
 
     <div class="post-content">
         {!! $post->text  !!}
@@ -31,8 +23,8 @@
 
     @if (Auth::id() == $post->user_id)
     <div id="actions">
-        <a href="{{url('post/edit',$post->id)}}" class="btn btn-dafault btn-details">Edit post</a>
-        <a href="{{url('post/delete',$post->id)}}" class="btn btn-dafault btn-details btn-delete">Delete post</a>
+        <a href="{{url('myposts/edit',$post->id)}}" class="btn btn-dafault btn-details">Edit post</a>
+        <a href="{{url('myposts/delete',$post->id)}}" class="btn btn-dafault btn-details btn-delete">Delete post</a>
     </div>
     @endif
 
@@ -77,7 +69,7 @@
         {!! Form::close() !!}
 
     </div>
-</section>
+
 @endsection
 
 @section('script')

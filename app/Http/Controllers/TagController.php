@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Services\PostScrollService;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -11,20 +12,32 @@ use App\Http\Requests;
 class TagController extends Controller
 {
 
-    public function __construct()
+    /**
+     * @var PostScrollService
+     */
+    private $postScroll;
+
+    public function __construct(PostScrollService $postScroll)
     {
         $this->middleware('auth',['except' => 'getPostByTag']);
+        $this->postScroll = $postScroll;
     }
 
-    public function getPostByTag($tag)
+    /**
+     * Get page with the tag
+     * @param $tag
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function tagName($tag)
     {
-        $tag = Tag::whereName($tag)->first();
-        abort_if($tag === null, 404);
-
-        $posts = $tag->posts()->withCount('comments')
-            ->orderBy('created_at','desc')->get();
-
-
+        $posts = $this->postScroll->scroll((new Tag)->getPostsByTagName($tag));
         return view('posts.list')->with('posts', $posts);
+    }
+
+    public function scroll( $tag, $skip )
+    {
+        $this->postScroll->setSkip($skip);
+        $posts = $this->postScroll->scroll((new Tag)->getPostsByTagName($tag));
+        return view('partials.scroll', ['posts' => $posts]);
     }
 }

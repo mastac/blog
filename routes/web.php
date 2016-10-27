@@ -32,20 +32,40 @@ Route::get('profile/changepassword', 'ProfileController@changepassword');
 Route::post('profile/changepassword', 'ProfileController@storechangepassword');
 
 /**
+ * My Posts
+ */
+Route::get('myposts', 'MyPostController@index');
+Route::get('myposts/scroll/{skip}', 'MyPostController@scroll');
+Route::get('myposts/create', 'MyPostController@create');
+Route::post('myposts/store', 'MyPostController@store');
+Route::get('myposts/edit/{id}', 'MyPostController@edit');
+Route::get('myposts/delete/{id}', 'MyPostController@destroy');
+Route::get('myposts/{search}', 'MyPostController@search');
+
+/**
  * Post
  */
-Route::get('posts', 'PostController@index');
-Route::get('post/create', 'PostController@create');
-Route::post('post/store', 'PostController@store');
+Route::get('posts/{id}', 'PostController@show');
 
-Route::get('post/edit/{id}', 'PostController@edit');
-Route::get('post/{id}', 'PostController@show');
-Route::get('post/delete/{id}', 'PostController@destroy');
+
+/**
+ * Tag
+ */
+Route::get('tag/{tag}', 'TagController@tagName');
+Route::get('tags/{tag}/scroll/{skip}', 'TagController@scroll');
+Route::get('tag/search/{search}', 'TagController@search');
+
 /**
  * Need scroll to home, tag, user, search
  */
 Route::get('posts/getposttoscroll/{offset}/{count}', 'PostController@getPostToScroll');
-Route::get('posts/{entry}/scroll/{offset}/{count}', 'PostController@scroll');
+
+Route::get('home/scroll/{skip}', 'HomeController@scroll');
+
+Route::get('user/{username}/scroll/{skip}', 'UserController@scroll');
+
+Route::get('search/{search}/scroll/{skip}', 'SearchController@scroll');
+
 Route::get('posts/{entry}/{param}/scroll/{offset}/{count}', 'PostController@scroll');
 
 Route::get('search', 'PostController@search');
@@ -59,8 +79,3 @@ Route::get('test', 'PostController@test');
 Route::post('comment/add', 'CommentController@store');
 Route::get('comments/{id}', 'CommentController@getComments');
 
-/**
- * Tags
- */
-Route::get('tag/add', 'TagController@store');
-Route::get('tag/{tag}', 'TagController@getPostByTag');

@@ -1,23 +1,9 @@
-@extends('layouts.blog')
-
-@section('title-page', (isset($title_page) ? $title_page : 'My Posts'))
-
-@section('global_page_header')
-
-    @include('partials.global_page_header')
-
-@endsection
+@extends('layouts.two_columns')
 
 @section('content')
 
-    @forelse($posts as $post)
-
-        @include('partials.post', ['post' => $post])
-
-    @empty
-
-        Empty
-
-    @endforelse
+    <div id="posts">
+        @each('theme.post', $posts, 'post', 'posts.empty')
+    </div>
 
 @endsection

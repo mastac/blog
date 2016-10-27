@@ -8,7 +8,7 @@
             @else
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li><a href="{{ url('/post/create') }}">Add Post</a></li>
-                <li><a href="{{ url('/posts') }}">My Posts </a></li>
+                <li><a href="{{ url('/myposts') }}">My Posts </a></li>
                 <li><a href="{{ url('/profile') }}">Profile </a></li>
                 <li><a href="{{ url('/logout') }}"onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">

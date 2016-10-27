@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
+use App\Validators\FileNotExtValidator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        Validator::resolver(
+            function($translator, $data, $rules, $messages)
+            {
+                return new FileNotExtValidator($translator, $data, $rules, $messages);
+            }
+        );
     }
 
     /**
