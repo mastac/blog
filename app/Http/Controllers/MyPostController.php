@@ -24,9 +24,7 @@ class MyPostController extends Controller
      */
     public function __construct(PostScrollService $postScroll)
     {
-        $this->middleware('auth', ['except' => [
-            'show', 'getPostByUserName', 'getPostToScroll', 'search'
-        ]]);
+        $this->middleware('auth');
         $this->postScroll = $postScroll;
     }
 
@@ -38,7 +36,10 @@ class MyPostController extends Controller
     public function index()
     {
         $posts = $this->postScroll->scroll(\Auth::user()->posts());
-        return view('posts.list')->with('posts', $posts);
+        return view('home')->with('posts', $posts)
+            ->with('page_title', 'My posts')
+            ->with('search_url', 'myposts')
+            ->with('scroll_url', 'myposts');
     }
 
     /**
@@ -66,7 +67,7 @@ class MyPostController extends Controller
             'image' => 'max:10000|not_ext:php,exe',
         ]);
 
-        $attributes = $request->all();
+        $attribute2 = $attributes = $request->all();
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -82,13 +83,16 @@ class MyPostController extends Controller
             $attributes['image'] = $fileName;
         }
 
+        $attribute3 = $attributes;
+
         if ($request->input('id')) {
             Post::find($request->input('id'))->update($attributes);
             $post = Post::find($request->input('id'));
         } else {
-            $attributes = array_add($request->all(),'user_id', auth()->id());
+            $attributes = array_add($attributes,'user_id', auth()->id());
             $post = Post::create($attributes);
         }
+//        dd($attribute3, $attribute2, $attributes);
 
         // Tags sync
         if ($request->has('tag_list')) {
@@ -154,16 +158,34 @@ class MyPostController extends Controller
         return view('partials.scroll', ['posts' => $posts]);
     }
 
-    public function search(Request $request)
+    public function searchRedirect(Request $request)
     {
-//        $search = $request->input('q');
-//
-//        $posts = \Auth::user()->posts()->where(function($query) use ($search){
-//            $query->where('name','like', '%'.$search.'%')
-//                ->orWhere('text','like', '%'.$search.'%');
-//        });
-//
-//        return view('posts.list')->with('posts', $posts);
+        $search = $request->input('q');
+
+        if (!empty($search)) {
+            return redirect('myposts/search/' . $search);
+        }
+        return view('empty')
+            ->with('page_title', 'My Posts, Search:  result is empty')
+            ->with('search_url', "myposts")
+            ->with('scroll_url', "myposts");
+    }
+
+    public function search($search)
+    {
+        $posts = $this->postScroll->scrollSearch((\Auth::user()->posts()), $search);
+        return view('home')
+            ->with('posts', $posts)
+            ->with('page_title', "My Posts, Search: {$search}")
+            ->with('search_url', "myposts")
+            ->with('scroll_url', "myposts/search/{$search}");
+    }
+
+    public function scrollSearch($search, $skip)
+    {
+        $this->postScroll->setSkip($skip);
+        $posts = $this->postScroll->scrollSearch((\Auth::user()->posts()), $search);
+        return view('partials.scroll', ['posts' => $posts]);
     }
 
 }

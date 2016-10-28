@@ -51,4 +51,17 @@ class PostScrollService
             ->orderBy('created_at','desc')->get();
     }
 
+    public function scrollSearch($posts, $search)
+    {
+        return $posts->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take($this->getTake())
+            ->skip($this->getSkip())
+            ->orderBy('created_at','desc')->get();
+    }
+
 }

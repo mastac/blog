@@ -5,11 +5,11 @@
 
         var win = $(window);
 
-        var page = 1;
+        var page = 1; // first page to loading
 
-        var enabledScroll = true;
+        var enabledScroll = true; // if scroll return empty result then disabled
 
-        var is_run = false;
+        var is_run = false; // if run don't run again
 
         // Each time the user scrolls
         win.scroll(function () {
@@ -19,9 +19,13 @@
                     if(!is_run) {
                         is_run = true;
                         $.ajax({
-                            url: '{{$scroll_part_url}}/scroll/' + page,
+                            url: '/{{$scroll_url}}/scroll/' + page,
                             dataType: 'html',
+                            beforeSend: function(){
+                                $('#loading').show();
+                            },
                             success: function (html) {
+                                $('#loading').hide();
                                 if (html) {
                                     page += 1;
                                     $('#posts').append(html);

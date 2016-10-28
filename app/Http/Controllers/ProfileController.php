@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Authenticatable;
 use App\Http\Requests;
 use Illuminate\Contracts\Auth\Guard;
 use App\User;
@@ -14,7 +12,6 @@ class ProfileController extends Controller
 
     /**
      * ProfileController constructor.
-     * @param UserRepository $user
      */
     public function __construct()
     {
@@ -23,7 +20,10 @@ class ProfileController extends Controller
 
     public function index(Guard $auth, Request $request)
     {
-        return view('profile.profile')->with('user', $auth->user())->with('request', $request);
+        return view('profile.profile')
+            ->with('page_title', 'Profile')
+            ->with('user', $auth->user())
+            ->with('request', $request);
     }
 
     public function store(Guard $auth, Request $request)
@@ -46,10 +46,13 @@ class ProfileController extends Controller
 
     public function changepassword(Request $request)
     {
-        return view('profile.changepassword')->with('active', 'changepassword')->with('request', request());
+        return view('profile.changepassword')
+            ->with('page_title', 'Change password')
+            ->with('active', 'changepassword')
+            ->with('request', request());
     }
 
-    public function storechangepassword(UserRepository $userRepository, Request $request)
+    public function storechangepassword(Request $request)
     {
 
         $this->validate($request, [
@@ -57,12 +60,19 @@ class ProfileController extends Controller
             'newpassword' => 'required|min:6|confirmed',
         ]);
 
-        if ($userRepository->checkMatchPassword($request->input('oldpassword'))) {
-            $message = $userRepository->changePassword($request->input('oldpassword'), $request->input('newpassword'));
+        if (User::checkMatchPassword($request->input('oldpassword')))
+        {
+
+            if (User::changePassword($request->input('oldpassword'), $request->input('newpassword'))) {
+                $message = "Password changed";
+            } else {
+                $message = "New and Old password is equils";
+            }
 
             \Session::flash('flash_message_success',$message);
             $request->session()->flash('status', $message);
             return redirect('profile/changepassword');
+
         } else {
 
             \Session::flash('flash_message_error',"Incorrect old password");

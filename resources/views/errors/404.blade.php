@@ -1,4 +1,4 @@
-@extends('layouts.blogfull')
+@extends('layouts.simple')
 
 @section('content')
 <section class="moduler wrapper_404">

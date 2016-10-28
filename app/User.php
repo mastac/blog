@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -40,5 +41,22 @@ class User extends Authenticatable
     {
         $user = $this->whereName($username)->firstOrFail();
         return $user->posts();
+    }
+
+    public static function changePassword($oldpassword, $newpassword)
+    {
+        if ($oldpassword !== $newpassword) {
+            $user = User::where('id',auth()->id())->first();
+            $user->password = bcrypt($newpassword);
+            $user->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function checkMatchPassword($oldpassword)
+    {
+        return Hash::check($oldpassword, auth()->user()->getAuthPassword());
     }
 }

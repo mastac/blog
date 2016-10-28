@@ -35,7 +35,7 @@
 
 @yield('main-content')
 
-@include('theme.call_to_action')
+{{--@include('theme.call_to_action')--}}
 
 @include('theme.footer')
 

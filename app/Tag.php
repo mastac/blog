@@ -24,4 +24,9 @@ class Tag extends Model
         return $this->whereName($tag)->firstOrFail()->posts();
     }
 
+    public static function getTagsWithCountPosts()
+    {
+        return Tag::withCount('posts')->get();
+    }
+
 }

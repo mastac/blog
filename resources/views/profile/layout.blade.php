@@ -1,10 +1,4 @@
-@extends('layouts.blogfull')
-
-@section('global_page_header')
-
-    @include('partials.global_page_header')
-
-@endsection
+@extends('layouts.one_column')
 
 @section('content')
 

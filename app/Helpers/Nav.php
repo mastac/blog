@@ -17,11 +17,11 @@ class Nav
         return $request->is($path) ? $active : '';
     }
 
-    public static function getTagLinks($tags)
+    public static function getTagLinks($path, $tags)
     {
         $values = [];
         foreach ($tags as $tag) {
-            $values[] = (string) link_to("tag/".$tag->name, $tag->name);
+            $values[] = (string) link_to($path . $tag, $tag);
         }
 
         return implode(', ', $values);

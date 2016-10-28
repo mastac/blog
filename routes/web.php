@@ -11,16 +11,32 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+/**
+ * Auth
+ */
+Auth::routes();
 
+/**
+ * Activation user from sending link in email
+ */
+Route::get('/user/activation/{token}', 'Auth\LoginController@activateUser')->name('user.activate');
+
+/**
+ * SocialAuth
+ */
 Route::get('auth/redirect', 'Auth\SocialAuthController@redirect');
 Route::get('auth/callback', 'Auth\SocialAuthController@callback');
 
-Auth::routes();
-
-Route::get('/user/activation/{token}', 'Auth\LoginController@activateUser')->name('user.activate');
-
-Route::get('home', 'HomeController@index');
+/**
+ * Home page
+ */
+Route::get('/', 'HomeController@home');
+Route::get('home', 'HomeController@home');
+Route::get('home/scroll/{skip}', 'HomeController@scroll');
+// Search
+Route::post('home/search', 'HomeController@searchRedirect');
+Route::get('home/search/{search}', 'HomeController@search');
+Route::get('home/search/{search}/scroll/{skip}', 'HomeController@scrollSearch');
 
 /**
  * Profile
@@ -36,42 +52,42 @@ Route::post('profile/changepassword', 'ProfileController@storechangepassword');
  */
 Route::get('myposts', 'MyPostController@index');
 Route::get('myposts/scroll/{skip}', 'MyPostController@scroll');
+
 Route::get('myposts/create', 'MyPostController@create');
 Route::post('myposts/store', 'MyPostController@store');
 Route::get('myposts/edit/{id}', 'MyPostController@edit');
 Route::get('myposts/delete/{id}', 'MyPostController@destroy');
-Route::get('myposts/{search}', 'MyPostController@search');
+
+// Search
+Route::post('myposts/{search}', 'MyPostController@searchRedirect');
+Route::get('myposts/search/{search}', 'MyPostController@search');
+Route::get('myposts/search/{search}/scroll/{skip}', 'MyPostController@scrollSearch');
 
 /**
  * Post
  */
 Route::get('posts/{id}', 'PostController@show');
 
-
 /**
  * Tag
  */
-Route::get('tag/{tag}', 'TagController@tagName');
-Route::get('tags/{tag}/scroll/{skip}', 'TagController@scroll');
-Route::get('tag/search/{search}', 'TagController@search');
+Route::get('tags/{tag}', 'TagController@tagByName');
+Route::get('tags/{tag}/scroll/{skip}', 'TagController@scrollByTagName');
+// Search
+Route::post('tags/{tag}/search', 'TagController@searchRedirect');
+Route::get('tags/{tag}/search/{search}', 'TagController@searchByTagName');
+Route::get('tags/{tag}/search/{search}/scroll/{skip}', 'TagController@scrollSearchByTagName');
 
 /**
- * Need scroll to home, tag, user, search
+ * User
  */
-Route::get('posts/getposttoscroll/{offset}/{count}', 'PostController@getPostToScroll');
-
-Route::get('home/scroll/{skip}', 'HomeController@scroll');
-
-Route::get('user/{username}/scroll/{skip}', 'UserController@scroll');
-
-Route::get('search/{search}/scroll/{skip}', 'SearchController@scroll');
-
-Route::get('posts/{entry}/{param}/scroll/{offset}/{count}', 'PostController@scroll');
-
-Route::get('search', 'PostController@search');
-Route::get('user/{name}', 'PostController@getPostByUserName');
-
-Route::get('test', 'PostController@test');
+Route::get('user/{username}', 'UserController@postByUsername');
+Route::get('user/{username}/scroll/{skip}', 'UserController@scrollByUsername');
+// Search
+Route::get('user/{username}/search', 'UserController@searchEmpty');
+Route::post('user/{username}/search', 'UserController@searchRedirect');
+Route::get('user/{username}/search/{search}', 'UserController@searchByUsername');
+Route::get('user/{username}/search/{search}/scroll/{skip}', 'UserController@scrollSearchByUsername');
 
 /**
  * Comment

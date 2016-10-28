@@ -19,7 +19,7 @@
             </span>
             @if ($post->tags->count() > 0)
                 <span{{ ($post->comments_count > 0) ? "" : " class=last" }}>
-                {!! \App\Helpers\Nav::getTagLinks($post->tags) !!}
+                {!! \App\Helpers\Nav::getTagLinks("tags/" , $post->tags()->pluck('name')) !!}
             </span>
             @endif
             @if ($post->comments_count > 0)

@@ -7,7 +7,9 @@ Global Page Section Start
         <div class="row">
             <div class="col-md-12">
                 <div class="block">
-                    <h2>{{ isset($page_title) ? $page_title : "" }}</h2>
+
+                    <h2>{{ !empty($page_title) ? $page_title : "" }}</h2>
+                    <h2>@yield('page_title')</h2>
 
                     @if(isset($breadcrumb))
                     <ol class="breadcrumb">
@@ -21,11 +23,13 @@ Global Page Section Start
                     </ol>
                     @endif
 
-                    @if(isset($post_meta))
+                    @if(!empty($post))
                     <div class="portfolio-meta">
-                        <span>Dec 11, 2020</span>|
-                        <span> by: username</span>|
-                        <span> Tags: <a href="">business</a>,<a href="">people</a></span>
+                        <span>{{$post->created_at}}</span>
+                        |<span> by: {!! Html::link("user/{$post->user->name}", $post->user->name) !!}</span>
+                        @if(count($post->tags()) > 0)
+                        |<span> Tags: {!! \App\Helpers\Nav::getTagLinks("tags/", $post->tags()->pluck('name')) !!}</span>
+                        @endif
                     </div>
                     @endif
 

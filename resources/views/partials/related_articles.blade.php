@@ -1,4 +1,0 @@
-
-<div>
-    Related Articles
-</div>

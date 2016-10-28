@@ -7,8 +7,9 @@
             <div class="col-md-4">
                 <div class="sidebar">
                     @include('theme.sidebar_search')
+                    @include('theme.sidebar_related_posts')
                     @include('theme.sidebar_categories')
-                    @include('theme.sidebar_posts')
+                    @include('theme.sidebar_recent_posts')
                 </div>
             </div>
         </div>

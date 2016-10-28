@@ -1,12 +1,6 @@
-@extends('layouts.blogfull')
+@extends('layouts.one_column')
 
-@section('title-page', 'Register')
-
-@section('global_page_header')
-
-    @include('partials.global_page_header')
-
-@endsection
+@section('page_title', 'Register')
 
 @section('content')
 <div class="container">

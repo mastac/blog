@@ -1,1 +1,1 @@
-<div id="loading"><img src="/images/loading.gif" alt="Loading..."></div>
+<div id="loading" {{ (isset($show) && $show) ? ' style=display:block' : " style=display:none"  }}><img src="/images/loading.gif" alt="Loading..."></div>

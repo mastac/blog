@@ -1,6 +1,6 @@
 
 @foreach($posts as $post)
 
-    @include('partials.post', ['post' => $post])
+    @include('theme.post', ['post' => $post])
 
 @endforeach
