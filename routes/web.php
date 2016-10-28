@@ -95,3 +95,4 @@ Route::get('user/{username}/search/{search}/scroll/{skip}', 'UserController@scro
 Route::post('comment/add', 'CommentController@store');
 Route::get('comments/{id}', 'CommentController@getComments');
 
+Route::get('test', 'PostController@test');

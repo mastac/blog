@@ -31,4 +31,14 @@ class PostController extends Controller
             ->with('search_url', 'home');
     }
 
+
+
+    public function test()
+    {
+        //<iframe width="854" height="480" src="https://www.youtube.com/embed/Qjjqu8-MxHU" frameborder="0" allowfullscreen></iframe>
+        $id = $this->youtube_id_from_url('https://www.youtube.com/watch?v=Qjjqu8-MxHU');
+        $id2 = $this->youtube_id_from_url('https://www.youtube.com/embed/Qjjqu8-MxHU');
+        dd($id, $id2);
+    }
+
 }

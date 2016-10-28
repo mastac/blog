@@ -17,12 +17,12 @@
                     {!! $post->text !!}
                 </div>
 
-                {{--@if(!empty($post->youtube))--}}
-                {{--<div class="post-youtube">--}}
-                    {{--<h4>Video for this article</h4>--}}
-                    {{--<iframe width="854" height="480" src="{{$post->youtube}}" frameborder="0" allowfullscreen></iframe>--}}
-                {{--</div>--}}
-                {{--@endif--}}
+                @if(!empty($post->youtube))
+                <div class="post-youtube">
+                    <h4>Video for this post</h4>
+                    <iframe width="100%" height="480" src="https://www.youtube.com/embed/{{$post->youtube}}" frameborder="0" allowfullscreen></iframe>
+                </div>
+                @endif
 
                 <ul class="social-share">
                     <h4>Share this article</h4>

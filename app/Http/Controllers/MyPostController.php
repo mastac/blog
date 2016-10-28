@@ -67,7 +67,7 @@ class MyPostController extends Controller
             'image' => 'max:10000|not_ext:php,exe',
         ]);
 
-        $attribute2 = $attributes = $request->all();
+        $attributes = $request->all();
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -83,7 +83,8 @@ class MyPostController extends Controller
             $attributes['image'] = $fileName;
         }
 
-        $attribute3 = $attributes;
+        // Store youtube id
+        $attributes['youtube'] = Post::youtubeIdFromUrl($attributes['youtube']);
 
         if ($request->input('id')) {
             Post::find($request->input('id'))->update($attributes);
@@ -92,7 +93,6 @@ class MyPostController extends Controller
             $attributes = array_add($attributes,'user_id', auth()->id());
             $post = Post::create($attributes);
         }
-//        dd($attribute3, $attribute2, $attributes);
 
         // Tags sync
         if ($request->has('tag_list')) {
