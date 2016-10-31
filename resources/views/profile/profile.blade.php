@@ -54,7 +54,7 @@
     </div>
 
     <div class="form-group">
-        {!! Form::submit('Change password', ['class' => 'btn btn-primary']) !!}
+        {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     </div>
 
     {!! Form::close() !!}
