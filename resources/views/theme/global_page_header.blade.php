@@ -27,7 +27,7 @@ Global Page Section Start
                     <div class="portfolio-meta">
                         <span>{{$post->created_at}}</span>
                         |<span> by: {!! Html::link("user/{$post->user->name}", $post->user->name) !!}</span>
-                        @if(count($post->tags()) > 0)
+                        @if(count($post->tags) > 0)
                         |<span> Tags: {!! \App\Helpers\Nav::getTagLinks("tags/", $post->tags()->pluck('name')) !!}</span>
                         @endif
                     </div>
