@@ -4,7 +4,7 @@
 
     @include('partials.error_flash')
 
-    {!! Form::open(['url' => 'myposts/store', 'method' => 'POST', 'files' => true]) !!}
+    {!! Form::open(['url' => 'posts/store', 'method' => 'POST', 'files' => true]) !!}
 
 
     <div class="form-group">

@@ -31,8 +31,8 @@ Header Section Start
                         <li><a href="{{url('/login')}}">Sign in</a></li>
                     @else
                         <li><a href="{{ url('/') }}">Home</a></li>
-                        <li><a href="{{ url('/myposts/create') }}">Create post</a></li>
-                        <li><a href="{{ url('/myposts') }}">My Posts</a></li>
+                        <li><a href="{{ url('/posts/create') }}">Create post</a></li>
+                        <li><a href="{{ url('user', \Auth::user()->name) }}">My Posts</a></li>
                         <li><a href="{{ url('/profile') }}">Profile </a></li>
                         <li><a href="{{ url('/logout') }}"onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">

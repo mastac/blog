@@ -48,24 +48,21 @@ Route::get('profile/changepassword', 'ProfileController@changepassword');
 Route::post('profile/changepassword', 'ProfileController@storechangepassword');
 
 /**
- * My Posts
- */
-Route::get('myposts', 'MyPostController@index');
-Route::get('myposts/scroll/{skip}', 'MyPostController@scroll');
-
-Route::get('myposts/create', 'MyPostController@create');
-Route::post('myposts/store', 'MyPostController@store');
-Route::get('myposts/edit/{id}', 'MyPostController@edit');
-Route::get('myposts/delete/{id}', 'MyPostController@destroy');
-
-// Search
-Route::post('myposts/{search}', 'MyPostController@searchRedirect');
-Route::get('myposts/search/{search}', 'MyPostController@search');
-Route::get('myposts/search/{search}/scroll/{skip}', 'MyPostController@scrollSearch');
-
-/**
  * Post
  */
+Route::get('posts/scroll/{skip}', 'PostController@scroll');
+
+Route::get('posts/create', 'PostController@create');
+Route::post('posts/store', 'PostController@store');
+Route::get('posts/edit/{id}', 'PostController@edit');
+Route::get('posts/delete/{id}', 'PostController@destroy');
+
+// Search
+Route::post('posts/{search}', 'PostController@searchRedirect');
+Route::get('posts/search/{search}', 'PostController@search');
+Route::get('posts/search/{search}/scroll/{skip}', 'PostController@scrollSearch');
+
+
 Route::get('posts/{id}', 'PostController@show');
 
 /**

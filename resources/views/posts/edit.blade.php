@@ -4,7 +4,7 @@
 
     @include('partials.error_flash')
 
-    {!! Form::open(['url' => 'myposts/store', 'method' => 'POST', 'files' => true]) !!}
+    {!! Form::open(['url' => 'posts/store', 'method' => 'POST', 'files' => true]) !!}
     {!! Form::hidden('id', $post->id) !!}
 
     <div class="form-group">
@@ -37,7 +37,7 @@
 
     <div class="form-group">
         {!! Form::submit('Save', ['class' => 'btn btn-details']) !!}
-        {!! Html::link('posts', 'Cancel', ['class' => 'btn btn-details']) !!}
+        {!! Html::link('user/' . \Auth::user()->name, 'Cancel', ['class' => 'btn btn-details']) !!}
     </div>
 
     {!! Form::close() !!}
