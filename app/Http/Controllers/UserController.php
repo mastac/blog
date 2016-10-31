@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PostScrollService;
 use App\User;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class UserController extends Controller
 {
-    /**
-     * @var PostScrollService
-     */
-    private $postScroll;
-
-    public function __construct(PostScrollService $postScroll)
-    {
-        $this->postScroll = $postScroll;
-    }
 
     public function postByUsername($username)
     {
-        $posts = $this->postScroll->scroll((new User)->getPostsByUsername($username));
+
+        $posts = (new User)->getPostsByUsername($username)->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home', ['posts' => $posts])
             ->with('page_title', 'User: '. $username)
             ->with('search_url', 'user/' . $username)
@@ -31,8 +25,12 @@ class UserController extends Controller
 
     public function scrollByUsername( $username, $skip )
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scroll((new User)->getPostsByUsername($username));
+        $posts = (new User)->getPostsByUsername($username)->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip((int) $skip * 5)
+            ->orderBy('created_at','desc')->get();
+
         return view('partials.scroll', ['posts' => $posts]);
     }
 
@@ -59,7 +57,16 @@ class UserController extends Controller
 
     public function searchByUsername(Request $request, $tag, $search)
     {
-        $posts = $this->postScroll->scrollSearch((new User)->getPostsByUsername($tag), $search);
+        $posts = (new User)->getPostsByUsername($tag)->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home')
             ->with('posts', $posts)
             ->with('page_title', "User: {$tag}, Search: {$search}")
@@ -69,8 +76,16 @@ class UserController extends Controller
 
     public function scrollSearchByUsername($tag, $search, $skip)
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scrollSearch((new User)->getPostsByUsername($tag), $search);
+        $posts = (new User)->getPostsByUsername($tag)->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip((int)$skip * 5)
+            ->orderBy('created_at','desc')->get();
+
         return view('partials.scroll', ['posts' => $posts]);
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\Services\PostScrollService;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -11,16 +10,6 @@ use App\Http\Requests;
 
 class TagController extends Controller
 {
-
-    /**
-     * @var PostScrollService
-     */
-    private $postScroll;
-
-    public function __construct(PostScrollService $postScroll)
-    {
-        $this->postScroll = $postScroll;
-    }
 
     public function searchRedirect(Request $request, $tag)
     {
@@ -43,7 +32,13 @@ class TagController extends Controller
      */
     public function tagByName($tag)
     {
-        $posts = $this->postScroll->scroll((new Tag)->getPostsByTagName($tag));
+
+        $posts = (new Tag)->getPostsByTagName($tag)->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home')
             ->with('posts', $posts)
             ->with('page_title', 'Tag: '. $tag)
@@ -53,14 +48,28 @@ class TagController extends Controller
 
     public function scrollByTagName( $tag, $skip )
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scroll((new Tag)->getPostsByTagName($tag));
+        $posts = (new Tag)->getPostsByTagName($tag)->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip((int)$skip * 5)
+            ->orderBy('created_at','desc')->get();
+
         return view('partials.scroll', ['posts' => $posts]);
     }
 
     public function searchByTagName($tag, $search)
     {
-        $posts = $this->postScroll->scrollSearch((new Tag)->getPostsByTagName($tag), $search);
+
+        $posts = (new Tag)->getPostsByTagName($tag)->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home')
             ->with('posts', $posts)
             ->with('page_title', "Tag: {$tag}, Search: {$search}")
@@ -71,8 +80,15 @@ class TagController extends Controller
 
     public function scrollSearchByTagName($tag, $search, $skip)
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scrollSearch((new Tag)->getPostsByTagName($tag), $search);
+        $posts = (new Tag)->getPostsByTagName($tag)->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip((int) $skip * 5)
+            ->orderBy('created_at','desc')->get();
         return view('partials.scroll', ['posts' => $posts]);
     }
 }

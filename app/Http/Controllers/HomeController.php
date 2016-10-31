@@ -2,22 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PostScrollService;
 use Illuminate\Http\Request;
 use App\Post;
 
 class HomeController extends Controller
 {
-    /**
-     * @var PostScrollService
-     */
-    private $postScroll;
-
-    public function __construct(PostScrollService $postScroll)
-    {
-        $this->postScroll = $postScroll;
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -25,8 +14,12 @@ class HomeController extends Controller
      */
     public function home()
     {
-        $this->postScroll->setSkip(0);
-        $posts = $this->postScroll->scroll((new Post));
+        $posts = (new Post)->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home')
             ->with('posts', $posts)
             ->with('page_title', 'Home page')
@@ -36,16 +29,26 @@ class HomeController extends Controller
 
     public function scroll($skip)
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scroll((new Post));
+        $posts = (new Post)->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip((int)$skip * 5)
+            ->orderBy('created_at','desc')->get();
 
         return view('partials.scroll', ['posts' => $posts]);
     }
 
     public function scrollSearch($search, $skip)
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scrollSearch((new Post), $search);
+        $posts = (new Post)->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip((int) $skip * 5)
+            ->orderBy('created_at','desc')->get();
         return view('partials.scroll', ['posts' => $posts]);
     }
 
@@ -65,7 +68,16 @@ class HomeController extends Controller
 
     public function search($search)
     {
-        $posts = $this->postScroll->scrollSearch((new Post), $search);
+        $posts = (new Post)->withCount('comments')
+        ->with('tags')
+        ->where(function($query) use ($search){
+            $query->where('name','like', '%'.$search.'%')
+                ->orWhere('text','like', '%'.$search.'%');
+        })
+        ->take(5)
+        ->skip(0)
+        ->orderBy('created_at','desc')->get();
+
         return view('home')
             ->with('posts', $posts)
             ->with('page_title', "Search: {$search}")

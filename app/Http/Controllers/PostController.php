@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Helpers\Nav;
 use App\Post;
 use App\Tag;
-use App\Services\PostScrollService;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,21 +13,13 @@ use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
-
-    /**
-     * @var PostScrollService
-     */
-    private $postScroll;
-
     /**
      * Create a new controller instance.
      *
-     * @param PostScrollService $postScroll
      */
-    public function __construct(PostScrollService $postScroll)
+    public function __construct()
     {
         $this->middleware('auth', ['except' => 'show']);
-        $this->postScroll = $postScroll;
     }
 
     /**
@@ -38,7 +29,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->postScroll->scroll(\Auth::user()->posts());
+        $posts = \Auth::user()->posts()->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home')->with('posts', $posts)
             ->with('page_title', 'Posts')
             ->with('search_url', 'posts')
@@ -53,7 +49,8 @@ class PostController extends Controller
     public function create()
     {
         $tags = Tag::pluck('name', 'name');
-        return view('posts.create')->with('tags', $tags)->with('page_title', 'Create post');
+        return view('posts.create')->with('tags', $tags)
+            ->with('page_title', 'Create post');
     }
 
     /**
@@ -155,8 +152,12 @@ class PostController extends Controller
      */
     public function scroll( $skip )
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scroll(\Auth::user()->posts());
+        $posts = \Auth::user()->posts()->withCount('comments')
+            ->with('tags')
+            ->take(5)
+            ->skip((int) $skip * 5)
+            ->orderBy('created_at','desc')->get();
+
         return view('partials.scroll', ['posts' => $posts]);
     }
 
@@ -175,7 +176,16 @@ class PostController extends Controller
 
     public function search($search)
     {
-        $posts = $this->postScroll->scrollSearch((\Auth::user()->posts()), $search);
+        $posts = \Auth::user()->posts()->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip(0)
+            ->orderBy('created_at','desc')->get();
+
         return view('home')
             ->with('posts', $posts)
             ->with('page_title', "Posts, Search: {$search}")
@@ -185,8 +195,16 @@ class PostController extends Controller
 
     public function scrollSearch($search, $skip)
     {
-        $this->postScroll->setSkip($skip);
-        $posts = $this->postScroll->scrollSearch((\Auth::user()->posts()), $search);
+        $posts = \Auth::user()->posts()->withCount('comments')
+            ->with('tags')
+            ->where(function($query) use ($search){
+                $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('text','like', '%'.$search.'%');
+            })
+            ->take(5)
+            ->skip((int) $skip * 5)
+            ->orderBy('created_at','desc')->get();
+
         return view('partials.scroll', ['posts' => $posts]);
     }
 
