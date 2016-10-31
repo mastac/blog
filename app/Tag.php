@@ -26,7 +26,7 @@ class Tag extends Model
 
     public static function getTagsWithCountPosts()
     {
-        return Tag::withCount('posts')->get();
+        return Tag::withCount('posts')->has('posts', '>', 0)->get();
     }
 
 }
