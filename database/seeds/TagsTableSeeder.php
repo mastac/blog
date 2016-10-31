@@ -12,22 +12,11 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tags')->insert([
-            'name' => 'linux',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
 
-        DB::table('tags')->insert([
-            'name' => 'windows',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
+        $tagList = ['linux', 'windows', 'mac', 'tag1', 'zzz', 'other'];
+        for($j = 0; $j < count($tagList); $j++) {
+            factory(App\Tag::class)->create(['name' => $tagList[$j]]);
+        }
 
-        DB::table('tags')->insert([
-            'name' => 'mac',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
     }
 }
