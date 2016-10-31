@@ -46,18 +46,20 @@ class Post extends Model
 
     /**
      * Get related posts
-     * @param null $post_id
+     * @param int $take
      * @return mixed
      */
-    public static function getRelatedPosts($post_id = null)
+    public function getRelatedPosts($take = 5)
     {
+
+        $post_id = $this->id;
 
         $tagIds = Post::find($post_id)->tags()->get()->pluck('id')->all();
 
         $posts = Post::whereHas('tags', function ($query) use ($tagIds, $post_id){
                 $query->whereIn('tags.id',$tagIds);
                 $query->where('post_id' ,'<>',  $post_id);
-        })->orderBy('created_at', 'desc')->take(5)->get();
+        })->orderBy('created_at', 'desc')->take($take)->get();
 
         return $posts;
     }
