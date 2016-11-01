@@ -1,10 +1,10 @@
 
-<article class="wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">
+<article class="post{{$post->id}} wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">
     <div class="blog-content">
 
         @if( !empty($post->image))
         <div class="blog-post-image">
-        <a href="{{url('posts', $post->id)}}"><img class="img-responsive" src="/storage/{{\Auth::id()}}/{{$post->image}}" alt=""></a>
+        <a href="{{url('posts', $post->id)}}"><img class="img-responsive" src="/storage/{{$post->user_id}}/{{$post->image}}" alt=""></a>
         </div>
         @endif
 

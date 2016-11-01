@@ -26,7 +26,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 
-$factory->define(App\Post::class, function (Faker\Generator $faker) {
+$factory->define(App\Post::class, function (Faker\Generator $faker, $attributes) {
 
     // Content
     $content = '';
@@ -55,18 +55,32 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
         $youtube = $youtubeIds[$youtubeRandomId];
 
     // User
-    $user_id = factory(App\User::class)->create()->id;
+    if (isset($attributes['user_id'])){
+        $user_id = $attributes['user_id'];
+    } else {
+        $user_id = factory(App\User::class)->create()->id;
+    }
 
     // Image
-//    $sizes = ['180x370', '370x180', '370x370', '370x560', '560x370'];
-//    $size = explode('x', $sizes[mt_rand(0, 4)]);
-//    $origImage = 'http://lorempixel.com/' .  implode('/', $size);
-//
-//    $image_filename = str_random(10) . '.png';
-//    $image =  Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . '/public/1/' . $image_filename;
-//
-//    file_put_contents($image, file_get_contents($origImage));
-    $image_filename = '';
+    try {
+        $sizes = ['750x300', '650x400', '800x400', '700x350'];
+        $size = explode('x', $sizes[mt_rand(0, 3)]);
+        $origImage = 'http://lorempixel.com/' . implode('/', $size);
+
+        $image_filename = str_random(10) . '.jpg';
+        $image_path = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix()
+            . 'public'
+            . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR;
+
+        @mkdir($image_path, 0666, true);
+
+        $image = $image_path . $image_filename;
+
+        file_put_contents($image, file_get_contents($origImage));
+    } catch (Exception  $e) {
+        echo "Can't get image. Error: " . $e->getMessage();
+        $image = '';
+    }
 
     return [
         'name' => $faker->text,

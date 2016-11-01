@@ -12,13 +12,17 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 
+        $output = $this->command->getOutput();
+
         factory(App\User::class, 10) // 10
             ->create()
-            ->each(function ($u) {
+            ->each(function ($u) use ($output) {
 
                 for($i = 0; $i < 10; $i++){
 
                     $post = $u->posts()->save(factory(App\Post::class)->make(['user_id' => $u->id]));
+
+                    $output->writeln("User id: {$u->id}, Post id: {$post->id}");
 
                     // Comments
                     $count_comment = random_int(0, 10);

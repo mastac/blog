@@ -9,7 +9,7 @@
 
                 @if(!empty($post->image))
                 <div class="post-img">
-                    <img class="img-responsive" alt="" src="/storage/{{\Auth::id()}}/{{$post->image}}">
+                    <img class="img-responsive" alt="" src="/storage/{{$post->user_id}}/{{$post->image}}">
                 </div>
                 @endif
 
