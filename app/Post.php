@@ -70,7 +70,16 @@ class Post extends Model
         return $this->orderBy('created_at','desc')->take($take)->get(['id', 'name', 'created_at']);
     }
 
-    public static function youtubeIdFromUrl($url) {
+    /**
+     * Get attribute tag_list
+     * @return mixed
+     */
+    public function getYoutubeUrlAttribute()
+    {
+        return $this->youtubeIdFromUrl($this->youtube);
+    }
+
+    public function youtubeIdFromUrl($url) {
         $pattern =
             '%^# Match any youtube URL
         (?:https?://)?  # Optional scheme. Either http or https

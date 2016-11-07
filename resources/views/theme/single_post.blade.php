@@ -17,10 +17,10 @@
                     {!! $post->text !!}
                 </div>
 
-                @if(!empty($post->youtube))
+                @if(!empty($post->youtube_url))
                 <div class="post-youtube">
                     <h4>Video for this post</h4>
-                    <iframe width="100%" height="480" src="https://www.youtube.com/embed/{{$post->youtube}}" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="100%" height="480" src="https://www.youtube.com/embed/{!! $post->youtube_url !!}" frameborder="0" allowfullscreen></iframe>
                 </div>
                 @endif
 

@@ -36,18 +36,18 @@ $factory->define(App\Post::class, function (Faker\Generator $faker, $attributes)
 
     // Youtube
     $youtubeIds = [
-        '6C7opaKZwEE',
-        'X8Z8okhkjv8',
-        'FZ1H12zTm_k',
-        '0hMTcCYdg04',
-        '4LJ_yHWDRDw',
-        'ZKRVaArIxo4',
-        'rrCVCh_Lq2Y',
-        'fXLEmubJzkU',
-        'CrkFewN5aEY',
-        'FwDaOcotclY',
-        'hyqXU72Oqbs',
-        'aAIreF0GM2k'
+        'https://www.youtube.com/watch?v=6C7opaKZwEE',
+        'https://www.youtube.com/watch?v=X8Z8okhkjv8',
+        'https://www.youtube.com/watch?v=FZ1H12zTm_k',
+        'https://www.youtube.com/watch?v=0hMTcCYdg04',
+        'https://www.youtube.com/watch?v=4LJ_yHWDRDw',
+        'https://www.youtube.com/watch?v=ZKRVaArIxo4',
+        'https://www.youtube.com/watch?v=rrCVCh_Lq2Y',
+        'https://www.youtube.com/watch?v=fXLEmubJzkU',
+        'https://www.youtube.com/watch?v=CrkFewN5aEY',
+        'https://www.youtube.com/watch?v=FwDaOcotclY',
+        'https://www.youtube.com/watch?v=hyqXU72Oqbs',
+        'https://www.youtube.com/watch?v=aAIreF0GM2k'
     ];
     $youtubeRandomId = random_int(0, count($youtubeIds)+2);
     $youtube = '';

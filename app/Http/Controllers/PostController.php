@@ -83,18 +83,18 @@ class PostController extends Controller
             $attributes['image'] = $fileName;
         }
 
-        // Store youtube id
-        $youtube = Post::youtubeIdFromUrl($attributes['youtube']);
-        if ($youtube !== false) {
-            $attributes['youtube'] = $youtube;
-        }
-
         if ($request->input('id')) {
             Post::find($request->input('id'))->update($attributes);
             $post = Post::find($request->input('id'));
         } else {
             $attributes = array_add($attributes, 'user_id', auth()->id());
             $post = Post::create($attributes);
+        }
+
+        // Store youtube id
+        $attributes['youtube'] = $post->youtubeIdFromUrl($attributes['youtube']);
+        if ($attributes['youtube'] === false) {
+            $attributes['youtube'] = '';
         }
 
         // Tags sync
