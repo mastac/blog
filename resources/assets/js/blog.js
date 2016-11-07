@@ -1,7 +1,4 @@
 
-window.$ = window.jQuery = require('jquery');
-require('bootstrap-sass');
-
 $(function(){
 
     // Show confimation
