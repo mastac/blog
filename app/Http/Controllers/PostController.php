@@ -84,13 +84,16 @@ class PostController extends Controller
         }
 
         // Store youtube id
-        $attributes['youtube'] = Post::youtubeIdFromUrl($attributes['youtube']);
+        $youtube = Post::youtubeIdFromUrl($attributes['youtube']);
+        if ($youtube !== false) {
+            $attributes['youtube'] = $youtube;
+        }
 
         if ($request->input('id')) {
             Post::find($request->input('id'))->update($attributes);
             $post = Post::find($request->input('id'));
         } else {
-            $attributes = array_add($attributes,'user_id', auth()->id());
+            $attributes = array_add($attributes, 'user_id', auth()->id());
             $post = Post::create($attributes);
         }
 
@@ -116,7 +119,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Auth::user()->posts()->findOrFail($id)->first();
+        $post = Auth::user()->posts()->find($id);//->first();
 
         if ($post) {
 

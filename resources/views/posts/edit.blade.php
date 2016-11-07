@@ -23,9 +23,11 @@
     </div>
 
     <div class="form-group">
+        @if (!empty($post->image))
         <div>
         {!! Html::image('storage/' . \Auth::id() . '/' . $post->image) !!}
         </div>
+        @endif
         {!! Form::label('image', 'Image') !!}
         {!! Form::file('image') !!}
     </div>
