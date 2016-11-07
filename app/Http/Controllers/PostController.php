@@ -219,19 +219,12 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        /**
-         * FIXME: Строка ниже выдаете мне пустой $post->tags
-         */
-        // $post = Post::find($id)->with('tags')->first();
-        /**
-         * а следеющая выдает выдает нормальный, В чем проблема
-         */
-        $post = Post::whereId($id)->with('tags')->first();
+        $post = Post::with('tags')->find($id);
+
         return view('theme.single_post',compact('post'))
             ->with('page_title', $post->name)
             ->with('search_url', 'home');
     }
-
 
 
     public function test()
