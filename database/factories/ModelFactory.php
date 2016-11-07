@@ -64,8 +64,8 @@ $factory->define(App\Post::class, function (Faker\Generator $faker, $attributes)
     // Image
     try {
         $sizes = ['750x300', '650x400', '800x400', '700x350'];
-        $size = $sizes[mt_rand(0, 3)]; // explode('x', $sizes[mt_rand(0, 3)]);
-        $origImage = 'http://placehold.it/' . $size; //implode('x', $size);
+        $size = $sizes[mt_rand(0, 3)];
+        $origImage = 'http://placehold.it/' . $size;
 
         $image_filename = str_random(10) . '.png';
         $image_path = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix()
