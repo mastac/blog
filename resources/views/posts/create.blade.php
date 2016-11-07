@@ -34,7 +34,7 @@
 
     <div class="form-group">
         {!! Form::submit('Save', ['class' => 'btn btn-details']) !!}
-        {!! Html::link('posts', 'Cancel', ['class' => 'btn btn-details']) !!}
+        {!! Html::link('user/' . \Auth::user()->name, 'Cancel', ['class' => 'btn btn-details']) !!}
     </div>
 
     {!! Form::close() !!}
