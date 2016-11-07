@@ -9,6 +9,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
+                    @include('partials.error_flash')
+
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}

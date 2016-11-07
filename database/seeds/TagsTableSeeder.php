@@ -12,11 +12,6 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-
-        $tagList = ['linux', 'windows', 'mac', 'tag1', 'zzz', 'other'];
-        for($j = 0; $j < count($tagList); $j++) {
-            factory(App\Tag::class)->create(['name' => $tagList[$j]]);
-        }
-
+        factory(App\Tag::class, 5)->create();
     }
 }

@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'show']);
+        $this->middleware('auth', ['except' => ['show', 'test']]);
     }
 
     /**
@@ -230,9 +230,13 @@ class PostController extends Controller
     public function test()
     {
         //<iframe width="854" height="480" src="https://www.youtube.com/embed/Qjjqu8-MxHU" frameborder="0" allowfullscreen></iframe>
-        $id = $this->youtube_id_from_url('https://www.youtube.com/watch?v=Qjjqu8-MxHU');
-        $id2 = $this->youtube_id_from_url('https://www.youtube.com/embed/Qjjqu8-MxHU');
-        dd($id, $id2);
+//        $id = $this->youtube_id_from_url('https://www.youtube.com/watch?v=Qjjqu8-MxHU');
+//        $id2 = $this->youtube_id_from_url('https://www.youtube.com/embed/Qjjqu8-MxHU');
+//        dd($id, $id2);
+//        $s = \Auth::user()->posts()->save(['name' => 'test', 'text' => 'demo text']);
+//        $s = factory(\App\Post::class)->create(['user_id' => '1']);
+        Auth::loginUsingId(1);
+        return redirect("/");
     }
 
 }

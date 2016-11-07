@@ -12,15 +12,13 @@
 */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
-
-    static $password = '123123';
-
     return [
         'name' => $faker->userName,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'activated' => 1,
+        'password' => bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
 });
@@ -77,9 +75,10 @@ $factory->define(App\Post::class, function (Faker\Generator $faker, $attributes)
         $image = $image_path . $image_filename;
 
         file_put_contents($image, file_get_contents($origImage));
+
     } catch (Exception  $e) {
         echo "Can't get image. Error: " . $e->getMessage();
-        $image = '';
+        $image_filename = '';
     }
 
     return [
