@@ -13,10 +13,11 @@ class UsersTableSeeder extends Seeder
     {
 
         $output = $this->command->getOutput();
+        $tagList = App\Tag::all()->pluck('name')->toArray();
 
         factory(App\User::class, 10) // 10
             ->create()
-            ->each(function ($u) use ($output) {
+            ->each(function ($u) use ($output, $tagList) {
 
                 for($i = 0; $i < 10; $i++){
 
@@ -32,12 +33,9 @@ class UsersTableSeeder extends Seeder
                     }
 
                     // Tags
-                    $tagList = App\Tag::all()->pluck('name')->toArray();
                     $tagCount = random_int(0, count($tagList) + 10); // if more then exists then skip etc. no tags
                     if(!empty($tagList[$tagCount])) {
-
                         $randomCount = random_int(0, count($tagList));
-
                         $z = 0;
                         while($z <= $randomCount - 1) {
                             $tag_id = App\Tag::whereName($tagList[$z])->first()->id;

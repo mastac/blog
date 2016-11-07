@@ -64,15 +64,15 @@ $factory->define(App\Post::class, function (Faker\Generator $faker, $attributes)
     // Image
     try {
         $sizes = ['750x300', '650x400', '800x400', '700x350'];
-        $size = explode('x', $sizes[mt_rand(0, 3)]);
-        $origImage = 'http://lorempixel.com/' . implode('/', $size);
+        $size = $sizes[mt_rand(0, 3)]; // explode('x', $sizes[mt_rand(0, 3)]);
+        $origImage = 'http://placehold.it/' . $size; //implode('x', $size);
 
-        $image_filename = str_random(10) . '.jpg';
+        $image_filename = str_random(10) . '.png';
         $image_path = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix()
             . 'public'
             . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR;
 
-        @mkdir($image_path, 0666, true);
+        @mkdir($image_path, 0775, true);
 
         $image = $image_path . $image_filename;
 

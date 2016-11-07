@@ -52,16 +52,22 @@ class Post extends Model
     public function getRelatedPosts($take = 5)
     {
 
+        $tagIds = $this->tags()->get()->pluck('id')->all();
+
         $post_id = $this->id;
 
-        $tagIds = Post::find($post_id)->tags()->get()->pluck('id')->all();
-
-        $posts = Post::whereHas('tags', function ($query) use ($tagIds, $post_id){
+        $posts = $this->whereHas('tags', function ($query) use ($tagIds, $post_id){
                 $query->whereIn('tags.id',$tagIds);
                 $query->where('post_id' ,'<>',  $post_id);
         })->orderBy('created_at', 'desc')->take($take)->get();
 
         return $posts;
+    }
+
+
+    public function getRecentPosts($take = 5)
+    {
+        return $this->orderBy('created_at','desc')->take($take)->get(['id', 'name', 'created_at']);
     }
 
     public static function youtubeIdFromUrl($url) {
