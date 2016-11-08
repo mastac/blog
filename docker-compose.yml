@@ -39,3 +39,12 @@ services:
             - "8080:80"
         links:
             - mysql
+
+### Selenium Container #########################################################
+
+    selenium:
+        image: selenium/standalone-firefox
+        volumes_from:
+            - application
+        ports:
+            - "4444"
