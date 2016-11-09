@@ -7,23 +7,13 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class LoginTest extends TestCase
 {
 
-    protected $user;
+    protected static $user;
 
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->user = factory(App\User::class)->create();
-    }
 
-    protected function tearDown()
+    public function testCreateUserAndCheckUserExist()
     {
-        $this->user->destroy($this->user->id);
-        parent::tearDown();
-    }
-
-    public function testUserExist()
-    {
-        $this->seeInDatabase('users', ['email' => $this->user->email]);
+        self::$user = factory(App\User::class)->create();
+        $this->seeInDatabase('users', ['email' => self::$user->email]);
     }
 
     /**
@@ -49,7 +39,7 @@ class LoginTest extends TestCase
     public function testLoginSuccess()
     {
         $this->visit('/login')
-            ->type($this->user->email, 'email')
+            ->type(self::$user->email, 'email')
             ->type('secret', 'password')
             ->press('Login')
             ->seePageIs('/')
@@ -59,7 +49,7 @@ class LoginTest extends TestCase
 
     public function testLogout()
     {
-        \Auth::loginUsingId($this->user->id);
+        \Auth::loginUsingId(self::$user->id);
         $this->assertTrue(\Auth::check());
         $form = $this->visit('/')->getForm();
 

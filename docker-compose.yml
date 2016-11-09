@@ -44,7 +44,7 @@ services:
 
     selenium:
         image: selenium/standalone-firefox
-        volumes_from:
-            - application
+        links:
+            - web
         ports:
-            - "4444"
+            - "4444:4444"

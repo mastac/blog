@@ -28,7 +28,7 @@ Header Section Start
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
                         <li><a href="{{url('/register')}}">Sign up</a></li>
-                        <li><a href="{{url('/login')}}">Sign in</a></li>
+                        <li><a href="{{url('/login')}}" id="sign_in">Sign in</a></li>
                     @else
                         <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('/posts/create') }}">Create post</a></li>

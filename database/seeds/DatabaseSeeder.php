@@ -11,11 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Clear directory public, except file .gitignore
-        $directory = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . 'public' ;
-        $directories = File::directories($directory);
+        $directories = Storage::disk('public')->directories();
         foreach ($directories as $dir) {
-            File::deleteDirectory($dir . DIRECTORY_SEPARATOR, true);
+            Storage::disk('public')->deleteDirectory($dir);
         }
 
         $this->call(TagsTableSeeder::class);

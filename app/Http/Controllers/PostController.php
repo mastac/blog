@@ -235,8 +235,8 @@ class PostController extends Controller
 //        dd($id, $id2);
 //        $s = \Auth::user()->posts()->save(['name' => 'test', 'text' => 'demo text']);
 //        $s = factory(\App\Post::class)->create(['user_id' => '1']);
-        Auth::loginUsingId(1);
-        return redirect("/");
+//        Auth::loginUsingId(1);
+//        return redirect("/");
     }
 
 }

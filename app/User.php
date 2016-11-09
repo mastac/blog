@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -58,5 +60,18 @@ class User extends Authenticatable
     public static function checkMatchPassword($oldpassword)
     {
         return Hash::check($oldpassword, auth()->user()->getAuthPassword());
+    }
+
+    /**
+     * Delete folder of user when delete user
+     */
+    public function delete(){
+
+        $user_id = $this->id;
+
+        if (parent::delete()) {
+
+            Storage::disk('public')->deleteDirectory($user_id);
+        }
     }
 }

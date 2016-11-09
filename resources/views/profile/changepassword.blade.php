@@ -23,7 +23,7 @@
         {!! Form::password('oldpassword', ['class' => 'form-control']) !!}
         @if ($errors->has('newpassword'))
             <span class="help-block">
-                <strong>{{ $errors->first('newpassword') }}</strong>
+                <strong>{{ $errors->first('oldpassword') }}</strong>
             </span>
         @endif
     </div>
