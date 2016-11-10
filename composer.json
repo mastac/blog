@@ -20,7 +20,8 @@
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
         "barryvdh/laravel-ide-helper": "^2.2",
-        "facebook/webdriver": "dev-master"
+        "facebook/webdriver": "dev-master",
+        "phpunit/phpunit-selenium": "^3.0"
     },
     "autoload": {
         "classmap": [

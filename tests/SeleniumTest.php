@@ -1,8 +1,8 @@
 <?php
 
-class GitHubTest extends PHPUnit_Framework_TestCase {
+class SeleniumTest extends PHPUnit_Extensions_Selenium2TestCase {
 
-    protected $url = 'http://web';
+    protected $url = 'http://localhost:8000';
     /**
      * @var \RemoteWebDriver
      */
@@ -11,7 +11,7 @@ class GitHubTest extends PHPUnit_Framework_TestCase {
     public function setUp()
     {
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'firefox');
-        $this->webDriver = RemoteWebDriver::create('http://selenium:4444/wd/hub', $capabilities);
+        $this->webDriver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities);
     }
 
     public function tearDown()
