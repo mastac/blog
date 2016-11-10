@@ -16,32 +16,33 @@ class Selenium2Test extends PHPUnit_Extensions_Selenium2TestCase
 
     }
 
-    public function testFirst()
+    private function First()
     {
         $this->url('/');
-        sleep(10);
+        sleep(1);
 
         $this->execute(array(
             'script' => 'window.scrollTo(0, document.body.scrollHeight);',
             'args'   => array()
         ));
-        sleep(10);
+        sleep(1);
 
         $this->execute(array(
             'script' => 'window.scrollTo(0, document.body.scrollHeight);',
             'args'   => array()
         ));
-        sleep(10);
+        sleep(1);
 
         $this->execute(array(
             'script' => 'window.scrollTo(0, document.body.scrollHeight);',
             'args'   => array()
         ));
-        sleep(10);
+        sleep(1);
 
         $this->assertEquals('Home page - Laravel', $this->title());
 
         $this->byXPath('//*[@id="sign_in"]')->click();
+
         sleep(5);
     }
 
