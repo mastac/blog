@@ -29,7 +29,7 @@
                             <label for="name" class="col-md-4 control-label">First name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required autofocus>
+                                <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required autofocus>
 
                                 @if ($errors->has('first_name'))
                                     <span class="help-block">
@@ -43,7 +43,7 @@
                             <label for="name" class="col-md-4 control-label">Last name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required autofocus>
+                                <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required autofocus>
 
                                 @if ($errors->has('last_name'))
                                     <span class="help-block">
@@ -97,7 +97,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary btn-details">
+                                <button id="register_button" type="submit" class="btn btn-primary btn-details">
                                     Register
                                 </button>
                             </div>

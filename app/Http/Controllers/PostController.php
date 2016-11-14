@@ -125,7 +125,8 @@ class PostController extends Controller
 
             $tags = Tag::pluck('name', 'name');
 
-            return view('posts.edit', ['post' => $post, 'tags' => $tags]);
+            return view('posts.edit', ['post' => $post, 'tags' => $tags])
+                ->with('page_title', 'Edit post');
         } else {
             return abort('401', 'Unauthorized.');
         }

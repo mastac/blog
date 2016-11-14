@@ -67,15 +67,15 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-dafault btn-details">
+                                <button id="login_button" type="submit" class="btn btn-dafault btn-details">
                                     Login
                                 </button>
 
-                                <a class="btn btn-dafault btn-details" href="{{ url('/password/reset') }}">
+                                <a  id="forgot_button" class="btn btn-dafault btn-details" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?
                                 </a>
 
-                                <a class="btn btn-dafault btn-details" href="{{ url( 'auth/redirect') }}">
+                                <a id="loginvk_button" class="btn btn-dafault btn-details" href="{{ url( 'auth/redirect') }}">
                                     Login VK
                                 </a>
 

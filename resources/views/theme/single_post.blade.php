@@ -54,11 +54,11 @@
         <div class="row">
             <div class="col-md-8">
 
-                <div class="comments">
+                <div class="comments" id="comments">
                 @include('partials.loading')
                 </div>
 
-                <div class="post-comment">
+                <div id="post-comment" class="post-comment">
 
                     @include('partials.error_flash')
 
@@ -69,21 +69,21 @@
 
                     <div class="form-group">
                         <div class="col-lg-6">
-                            {!! Form::text('name', null, ['class' => 'col-lg-12 form-control', 'placeholder' => 'Name']) !!}
+                            {!! Form::text('name', null, ['class' => 'col-lg-12 form-control', 'placeholder' => 'Name', 'id' => 'comment_name']) !!}
                         </div>
                         <div class="col-lg-6">
-                            {!! Form::text('email', null, ['class' => 'col-lg-12 form-control', 'placeholder' => 'Email']) !!}
+                            {!! Form::text('email', null, ['class' => 'col-lg-12 form-control', 'placeholder' => 'Email', 'id' => 'comment_email']) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-12">
-                            {!! Form::textarea('comment', null, ['class' => 'form-control', 'rows' => '8', 'placeholder' => 'Message']) !!}
+                            {!! Form::textarea('comment', null, ['class' => 'form-control', 'rows' => '8', 'placeholder' => 'Message', 'id' => 'comment_message']) !!}
                         </div>
                     </div>
                     <p>
                     </p>
                     <p>
-                        {!! Form::submit('Comment', ['class' => 'btn btn-send']) !!}
+                        {!! Form::submit('Comment', ['class' => 'btn btn-send', 'id' => 'comment_save_button']) !!}
                     </p>
 
                     <p></p>

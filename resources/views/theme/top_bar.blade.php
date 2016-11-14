@@ -27,15 +27,15 @@ Header Section Start
             <div class="main-menu">
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
-                        <li><a href="{{url('/register')}}">Sign up</a></li>
+                        <li><a href="{{url('/register')}}" id="sign_up">Sign up</a></li>
                         <li><a href="{{url('/login')}}" id="sign_in">Sign in</a></li>
                     @else
                         <li><a href="{{ url('/') }}">Home</a></li>
-                        <li><a href="{{ url('/posts/create') }}">Create post</a></li>
+                        <li><a href="{{ url('/posts/create') }}" id="create_post">Create post</a></li>
                         <li><a href="{{ url('user', \Auth::user()->name) }}">My Posts</a></li>
                         <li><a href="{{ url('/profile') }}">Profile </a></li>
                         <li><a href="{{ url('/logout') }}"onclick="event.preventDefault();
-                           document.getElementById('logout-form').submit();">
+                           document.getElementById('logout-form').submit();" id="logout_link">
                                 Logout
                             </a></li>
                     @endif

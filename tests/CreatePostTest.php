@@ -26,7 +26,7 @@ class CreatePostTest extends TestCase
     {
         $this->actingAs(self::$user)
             ->visit('/posts/create')
-            ->type('Post title', 'name')
+            ->type('Post title zzz', 'name')
             ->press('Save')
             ->see('The text field is required.')
         ;
@@ -53,11 +53,11 @@ class CreatePostTest extends TestCase
     {
         $this->actingAs(self::$user)
             ->visit('/posts/create')
-            ->type('Post title', 'name')
+            ->type('Post title zzz', 'name')
             ->type('Post body text', 'text')
             ->press('Save')
             ->seeInDatabase('posts', [
-                'name' => 'Post title',
+                'name' => 'Post title zzz',
                 'text' => 'Post body text'
             ])
         ;
@@ -85,7 +85,7 @@ class CreatePostTest extends TestCase
     public function testEditPostAddImage()
     {
 
-        $post = \App\Post::whereName('Post title')->first();
+        $post = \App\Post::whereName('Post title zzz')->first();
 
         $image = $this->getSampleFileToUpload();
 
@@ -109,18 +109,18 @@ class CreatePostTest extends TestCase
         $this->actingAs(self::$user)
             ->visit('/')
             ->click('My Posts')
-            ->see('Post title')
+            ->see('Post title zzz')
             ->click('Edit post')
             ->see('Title')
             ->type($youtube, 'youtube')
             ->press('Save')
-            ->seeInDatabase('posts', ['name' => 'Post title', 'youtube' => $youtube])
+            ->seeInDatabase('posts', ['name' => 'Post title zzz', 'youtube' => $youtube])
         ;
     }
 
     public function testEditPostAddNewTag()
     {
-        $post = \App\Post::whereName('Post title')->first();
+        $post = \App\Post::whereName('Post title zzz')->first();
         $form = $this->actingAs(self::$user)
             ->visit('/posts/edit/'.$post->id)->getForm('Save');
 
@@ -137,7 +137,7 @@ class CreatePostTest extends TestCase
         $this->seeInDatabase('tags',['name' => 'New']);
 
         $this->visit('/tags/New')
-            ->see('Post title');
+            ->see('Post title zzz');
 
         // Delete tag and check
         \App\Tag::whereName('New')->delete();
@@ -154,12 +154,12 @@ class CreatePostTest extends TestCase
     {
         \Auth::loginUsingId(self::$user->id);
 
-        $post = \App\Post::whereName('Post title')->first();
+        $post = \App\Post::whereName('Post title zzz')->first();
 
         $this->visit('/user/' . \Auth::user()->name)
-            ->see('Post title')
+            ->see('Post title zzz')
             ->click('delete-post-' . $post->id)
-            ->dontSee('Post title')
+            ->dontSee('Post title zzz')
         ;
     }
 
