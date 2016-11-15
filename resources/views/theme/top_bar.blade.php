@@ -32,7 +32,7 @@ Header Section Start
                     @else
                         <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('/posts/create') }}" id="create_post">Create post</a></li>
-                        <li><a href="{{ url('user', \Auth::user()->name) }}">My Posts</a></li>
+                        <li><a href="{{ url('user', \Auth::user()->name) }}" id="my_posts">My Posts</a></li>
                         <li><a href="{{ url('/profile') }}">Profile </a></li>
                         <li><a href="{{ url('/logout') }}"onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();" id="logout_link">

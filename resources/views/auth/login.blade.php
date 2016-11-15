@@ -12,13 +12,13 @@
                     @include('partials.error_flash')
 
                     @if (session('status'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success" id="login_alert_success">
                             {{ session('status') }}
                         </div>
                     @endif
 
                     @if (session('warning'))
-                        <div class="alert alert-warning">
+                        <div class="alert alert-warning" id="login_alert_warning">
                             {{ session('warning') }}
                         </div>
                     @endif
@@ -34,7 +34,7 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <span class="help-block" id="login_email_alert">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
@@ -48,7 +48,7 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
 
                                 @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <span class="help-block" id="login_password_alert">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif

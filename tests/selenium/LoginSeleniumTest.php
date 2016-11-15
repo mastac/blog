@@ -1,36 +1,13 @@
 <?php
 
-use App\User;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-class LoginSeleniumTest extends TestCase
+class LoginSeleniumTest extends SeleniumTestCase
 {
 
-//    protected $homepage = 'http://localhost:8000';
-    protected $homepage = 'http://web';
-
-    /** @var RemoteWebDriver $driver */
-    protected $driver;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->driver = RemoteWebDriver::create(
-//            'http://localhost:4444/wd/hub',
-            'http://selenium:4444/wd/hub',
-            DesiredCapabilities::firefox()
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->driver->quit();
-        parent::tearDown();
-    }
-
+    /**
+     * Wait count tag articles equal count_posts
+     * @param $driver
+     * @param $count_posts
+     */
     private function waitCountArticles($driver, $count_posts)
     {
         $driver->wait(5, 2000)->until(
@@ -41,21 +18,12 @@ class LoginSeleniumTest extends TestCase
         , "Get count posts: " . $count_posts);
     }
 
-    private function waitPageLoaded($driver)
-    {
-        $driver->wait(5, 2000)->until(
-            function () use ($driver) {
-                return $driver->executeScript('return document.readyState') === "complete";
-            }
-        ,"Page loaded");
-    }
-
     public function testHomeScroll()
     {
 
         $this->driver->get($this->homepage);
 
-        $this->driver->wait(5)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('posts'))," Get posts ID");
+        $this->driver->wait(5)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('posts')));
 
         $first_count = count($this->driver->findElements(WebDriverBy::tagName('article')));
         $this->assertEquals(5, $first_count);
@@ -100,7 +68,6 @@ class LoginSeleniumTest extends TestCase
         $this->waitCountArticles($this->driver, 70);
 
         $this->driver->executeScript("window.scrollTo(0, document.body.offsetHeight)");
-//        $this->driver->findElement(WebDriverBy::tagName('body'))->sendKeys(WebDriverKeys::END);
         $this->waitCountArticles($this->driver, 75);
 
         $last_count = count($this->driver->findElements(WebDriverBy::tagName('article')));
@@ -111,7 +78,7 @@ class LoginSeleniumTest extends TestCase
 
         $this->driver->get($this->homepage);
 
-        $home_page_title = $this->driver->findElement(WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'))->getText();
+        $home_page_title = $this->driver->findElement(WebDriverBy::xpath('//*[@id="global_page_title"]'))->getText();
         $this->assertEquals(
             'HOME PAGE',
             $home_page_title
@@ -131,22 +98,24 @@ class LoginSeleniumTest extends TestCase
         $sign_in_button = $this->driver->findElement(WebDriverBy::id('sign_in'));
         $sign_in_button->click();
 
-        // Insert incorrect login
+        /**
+         * Insert incorrect login
+         */
         $this->driver->wait(5)->until(WebDriverExpectedCondition::presenceOfElementLocated(WebDriverBy::id('email')));
         $this->driver->wait(5)->until(WebDriverExpectedCondition::presenceOfElementLocated(WebDriverBy::id('password')));
 
         $this->driver->findElement(WebDriverBy::id('email'))->sendKeys('test@gmail.com');
         $this->driver->findElement(WebDriverBy::id('password'))->sendKeys('password');
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/form/div[4]/div/button'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="login_button"]'))->click();
 
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(
-                WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/div/ul/li')
+                WebDriverBy::xpath('//*[@id="system_alerts"]/ul/li')
             )
         ,"incorrect login");
 
-        $error_msg = $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/div/ul/li'))->getText();
+        $error_msg = $this->driver->findElement(WebDriverBy::xpath('//*[@id="login_email_alert"]/strong'))->getText();
 
         $this->assertEquals($error_msg, "These credentials do not match our records.");
 
@@ -175,12 +144,12 @@ class LoginSeleniumTest extends TestCase
         // Visible alert with success
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(
-                WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/div')
+                WebDriverBy::xpath('//*[@id="login_alert_success"]')
             )
         ,"success");
 
         $message_success = $this->driver->findElement(
-            WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/div')
+            WebDriverBy::xpath('//*[@id="login_alert_success"]')
         )->getText();
 
         $this->assertEquals(trim($message_success), "We sent you an activation code. Check your email.");
@@ -194,7 +163,7 @@ class LoginSeleniumTest extends TestCase
         sleep(1);// wait to post login, reload page
 
         $message_need_confirm = $this->driver->findElement(
-            WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/div')
+            WebDriverBy::xpath('//*[@id="login_alert_warning"]')
         )->getText();
 
         $this->assertEquals(trim($message_need_confirm),
@@ -219,7 +188,7 @@ class LoginSeleniumTest extends TestCase
 
         sleep(1);
 
-        $home_page_title = $this->driver->findElement(WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'))->getText();
+        $home_page_title = $this->driver->findElement(WebDriverBy::xpath('//*[@id="global_page_title"]'))->getText();
         $this->assertEquals(
             'HOME PAGE',
             $home_page_title

@@ -6,18 +6,18 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LoginTest extends TestCase
 {
-
-    protected static $user;
-
-
-    public function testCreateUserAndCheckUserExist()
+    /**
+     * Create user
+     *
+     * @return void
+     */
+    public function testCreateUser()
     {
-        self::$user = factory(App\User::class)->create();
-        $this->seeInDatabase('users', ['email' => self::$user->email]);
+        $this->createUserAndCheckUserExist();
     }
 
     /**
-     * A basic test example.
+     * Check login with fail data
      *
      * @return void
      */
@@ -32,7 +32,7 @@ class LoginTest extends TestCase
 
 
     /**
-     * A basic test example.
+     * Check success login
      *
      * @return void
      */
@@ -47,6 +47,11 @@ class LoginTest extends TestCase
         ;
     }
 
+    /**
+     * Logout
+     *
+     * @return void
+     */
     public function testLogout()
     {
         \Auth::loginUsingId(self::$user->id);
@@ -58,6 +63,16 @@ class LoginTest extends TestCase
             ->seePageIs('/')
             ->see('Sign in')
         ;
+    }
+
+    /**
+     * Delete user
+     *
+     * @return void
+     */
+    public function testDeleteUser()
+    {
+        $this->deleteUserAndCheckUserExist();
     }
 
 }

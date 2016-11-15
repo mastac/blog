@@ -3,7 +3,7 @@
 @endphp
 
 @if ($tags->count() > 0)
-<div class="categories widget">
+<div id="tags_widget" class="categories widget">
     <h3 class="widget-head">Tags</h3>
     <ul>
         @foreach($tags as $tag)

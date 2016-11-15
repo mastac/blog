@@ -12,6 +12,7 @@ services:
         volumes:
             - .:/var/www/html
             - ./docker/data/apache2:/var/log/apache2
+            - ./docker/tmp:/tmp
         links:
             - mysql
         tty: true
@@ -44,7 +45,7 @@ services:
 
     selenium:
         image: selenium/standalone-firefox
-        links:
+        volumes_from:
             - web
         ports:
             - "4444:4444"

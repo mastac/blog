@@ -6,16 +6,21 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ChangePasswordTest extends TestCase
 {
-    protected static $user;
-
     /**
      * Create user
+     *
+     * @return void
      */
     public function testCreateUser()
     {
-        self::$user = factory(App\User::class)->create();
+        $this->createUserAndCheckUserExist();
     }
 
+    /**
+     * Change password set all field is empty
+     *
+     * @return void
+     */
     public function testChangePasswordSetAllFieldEmpty()
     {
         $this->actingAs(self::$user)
@@ -29,7 +34,7 @@ class ChangePasswordTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * Change password set Incorrect old password
      *
      * @return void
      */
@@ -43,8 +48,10 @@ class ChangePasswordTest extends TestCase
             ->press('Change password')
             ->see('The newpassword field is required.');
     }
+
+
     /**
-     * A basic test example.
+     * Change password set old password and 3 chars to new password
      *
      * @return void
      */
@@ -60,7 +67,7 @@ class ChangePasswordTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * Set old password and new password
      *
      * @return void
      */
@@ -75,13 +82,14 @@ class ChangePasswordTest extends TestCase
             ->see('Password changed');
     }
 
+    /**
+     * Delete user
+     *
+     * @return void
+     */
     public function testDeleteUser()
     {
-        $userId = self::$user->id;
-        $user = \App\User::find(self::$user->id);
-        $user->destroy(self::$user->id);
-        $this->dontSeeInDatabase('users', ['id' => $userId]);
-        $this->assertDirectoryNotExists(storage_path('app/public/' . $userId));
+        $this->deleteUserAndCheckUserExist();
     }
 
 }

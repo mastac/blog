@@ -9,7 +9,7 @@
 
     <div class="form-group">
         {!! Form::label('Title') !!}
-        {!! Form::text('name', '', ['class' => 'form-control']) !!}
+        {!! Form::text('name', '', ['class' => 'form-control', 'id' => 'Title']) !!}
     </div>
 
     <div class="form-group">
@@ -17,7 +17,7 @@
         {!! Form::textarea('text', '', ['class' => 'form-control tinymce']) !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="tags_edit_post">
         {!! Form::label('tag_list','Tags') !!}
         {!! Form::select('tag_list[]', $tags, null, ['class' => 'form-contral', 'multiple', 'id' => 'tag_list']) !!}
     </div>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-        {!! Form::submit('Save', ['class' => 'btn btn-details']) !!}
+        {!! Form::submit('Save', ['class' => 'btn btn-details', 'id' => 'create_post_button']) !!}
         {!! Html::link('user/' . \Auth::user()->name, 'Cancel', ['class' => 'btn btn-details']) !!}
     </div>
 

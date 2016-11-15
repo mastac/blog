@@ -7,20 +7,21 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreatePostTest extends TestCase
 {
-
-    protected static $user;
-
     /**
      * Create user
+     *
+     * @return void
      */
     public function testCreateUser()
     {
-        self::$user = factory(App\User::class)->create();
+        $this->createUserAndCheckUserExist();
     }
 
     /**
      * Validate create post with only name
      * Get error
+     *
+     * @return void
      */
     public function testCreatePostWithOnlyName()
     {
@@ -35,6 +36,8 @@ class CreatePostTest extends TestCase
     /**
      * Validate create post with only text (content)
      * Get error
+     *
+     * @return void
      */
     public function testCreatePostWithOnlyContent()
     {
@@ -48,6 +51,8 @@ class CreatePostTest extends TestCase
 
     /**
      * Create post with name and text
+     *
+     * @return void
      */
     public function testCreatePostWithNameAndText()
     {
@@ -163,13 +168,14 @@ class CreatePostTest extends TestCase
         ;
     }
 
+    /**
+     * Delete user
+     *
+     * @return void
+     */
     public function testDeleteUser()
     {
-        $userId = self::$user->id;
-        $user = \App\User::find(self::$user->id);
-        $user->destroy(self::$user->id);
-        $this->dontSeeInDatabase('users', ['id' => $userId]);
-        $this->assertDirectoryNotExists(storage_path('app/public/' . $userId));
+        $this->deleteUserAndCheckUserExist();
     }
 
 }

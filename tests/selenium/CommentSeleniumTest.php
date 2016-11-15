@@ -1,34 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-class CommentSeleniumTest extends TestCase
+class CommentSeleniumTest extends SeleniumTestCase
 {
-    /** @var RemoteWebDriver $driver */
-    protected $driver;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->driver = RemoteWebDriver::create(
-//            'http://localhost:4444/wd/hub',
-            'http://selenium:4444/wd/hub',
-            DesiredCapabilities::firefox()
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->driver->quit();
-        parent::tearDown();
-    }
 
     public function testComment()
     {
-
         /**
          * Create User
          */
@@ -63,12 +39,12 @@ class CommentSeleniumTest extends TestCase
         $this->driver->findElement(WebDriverBy::id('email'))->sendKeys($user->email);
         $this->driver->findElement(WebDriverBy::id('password'))->sendKeys('secret');
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/form/div[4]/div/button'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="login_button"]'))->click();
 
         // check we on home page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "HOME PAGE"
             )
         );
@@ -83,25 +59,25 @@ class CommentSeleniumTest extends TestCase
         // check we on create page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "CREATE POST"
             )
         );
 
         // title
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[1]/input'))
+        $this->driver->findElement(WebDriverBy::xpath('//input[@id=(//label[text()="Title"]/@for)]'))
             ->sendKeys('Post to test comments selenium');
 
         // text
         $this->driver->executeScript("tinyMCE.activeEditor.setContent('Post text to test comments selenium')");
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[6]/input'))
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="create_post_button"]'))
             ->click();
 
         // check we on my posts
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "USER: SAMPLENAME"
             )
         );
@@ -115,7 +91,7 @@ class CommentSeleniumTest extends TestCase
         // check we on home page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "HOME PAGE"
             )
         );
@@ -124,7 +100,7 @@ class CommentSeleniumTest extends TestCase
         // check we on post page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "POST TO TEST COMMENTS SELENIUM"
             )
         );
@@ -139,7 +115,7 @@ class CommentSeleniumTest extends TestCase
         // check we on post page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "POST TO TEST COMMENTS SELENIUM"
             )
         );
@@ -169,7 +145,7 @@ class CommentSeleniumTest extends TestCase
         // check we on post page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "POST TO TEST COMMENTS SELENIUM"
             )
         );
@@ -190,7 +166,7 @@ class CommentSeleniumTest extends TestCase
         // check we on post page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "POST TO TEST COMMENTS SELENIUM"
             )
         );
@@ -212,7 +188,7 @@ class CommentSeleniumTest extends TestCase
         // check we on post page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "POST TO TEST COMMENTS SELENIUM"
             )
         );
@@ -234,7 +210,7 @@ class CommentSeleniumTest extends TestCase
         // check we on post page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "POST TO TEST COMMENTS SELENIUM"
             )
         );

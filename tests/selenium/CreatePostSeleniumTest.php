@@ -1,50 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use App\User;
 
-class CreatePostSeleniumTest extends TestCase
+class CreatePostSeleniumTest extends SeleniumTestCase
 {
-    /** @var RemoteWebDriver $driver */
-    protected $driver;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->driver = RemoteWebDriver::create(
-//            'http://localhost:4444/wd/hub',
-            'http://selenium:4444/wd/hub',
-            DesiredCapabilities::firefox()
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->driver->quit();
-        parent::tearDown();
-    }
-
-
-    /**
-     * Get sample file to use in upload
-     * @return string
-     */
-    private function getSampleFileToUpload()
-    {
-        $sizes = ['750x300', '650x400', '800x400', '700x350'];
-        $size = $sizes[mt_rand(0, 3)];
-        $origImage = 'http://placehold.it/' . $size;
-
-        $temp = sys_get_temp_dir() . DIRECTORY_SEPARATOR . str_random(10) . '.png';
-        file_put_contents($temp, file_get_contents($origImage));
-        chmod($temp, 0777);
-
-        return $temp;
-    }
 
     public function testCreatePost()
     {
@@ -74,12 +33,12 @@ class CreatePostSeleniumTest extends TestCase
         $this->driver->findElement(WebDriverBy::id('email'))->sendKeys($user->email);
         $this->driver->findElement(WebDriverBy::id('password'))->sendKeys('secret');
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/form/div[4]/div/button'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="login_button"]'))->click();
 
         // check we on home page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "HOME PAGE"
             )
         );
@@ -90,13 +49,13 @@ class CreatePostSeleniumTest extends TestCase
         // check we on create page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "CREATE POST"
             )
         );
 
         // title
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[1]/input'))
+        $this->driver->findElement(WebDriverBy::xpath('//input[@id=(//label[text()="Title"]/@for)]'))
             ->sendKeys('Post title selenium');
 
         // text
@@ -104,26 +63,25 @@ class CreatePostSeleniumTest extends TestCase
 
         // tags
         $this->driver->findElement(
-            WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[3]/span/span[1]/span/ul/li/input')
+            WebDriverBy::xpath('//*[@id="tags_edit_post"]/span/span[1]/span/ul/li/input')
         )->sendKeys('best tag' . WebDriverKeys::ENTER);
 
-        // TODO: ошибка в докере, помоему проблема с правами, запуск от имени root
-//        // image
-//        $image_file = $this->getSampleFileToUpload();
-//        $this->driver->findElement(WebDriverBy::xpath('//*[@id="image"]'))
-//            ->sendKeys($image_file);
+        // image
+        $image_file = $this->getSampleFileToUpload();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="image"]'))
+            ->sendKeys($image_file);
 
         // youtube
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="youtube"]'))
+        $this->driver->findElement(WebDriverBy:: xpath('//*[@id="youtube"]'))
             ->sendKeys('https://www.youtube.com/watch?v=UZPoUYZz7Jc#!');
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[6]/input'))
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="create_post_button"]'))
             ->click();
 
         // check we on my posts
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "USER: SAMPLENAME"
             )
         );
@@ -142,12 +100,11 @@ class CreatePostSeleniumTest extends TestCase
 
         $this->assertEquals($title, 'Post title selenium');
 
-        // TODO: смотри todo выше, image, свзаные ошибки
-//        // check image
-//        $image_path = $this->driver->findElement(WebDriverBy::xpath('//*[@id="posts"]/article/div/div[1]/a/img'))
-//            ->getAttribute("src");
-//
-//        $this->assertNotEmpty($image_path);
+        // check image
+        $image_path = $this->driver->findElement(WebDriverBy::xpath('//*[@id="posts"]/article/div/div[1]/a/img'))
+            ->getAttribute("src");
+
+        $this->assertNotEmpty($image_path);
 
     }
 
@@ -167,28 +124,28 @@ class CreatePostSeleniumTest extends TestCase
         $this->driver->findElement(WebDriverBy::id('email'))->sendKeys('sample_email@gmail.com');
         $this->driver->findElement(WebDriverBy::id('password'))->sendKeys('secret');
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/form/div[4]/div/button'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="login_button"]'))->click();
 
         // check we on home page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "HOME PAGE"
             )
         );
 
         // click on my posts
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="top-bar"]/div/nav/div/ul/li[3]/a'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="my_posts"]'))->click();
 
         // check we on my posts
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "USER: SAMPLENAME"
             )
         );
 
-        // check button edit vibible
+        // check button edit visible
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(
                 WebDriverBy::xpath('//*[@id="posts"]/article/div/a[1]')
@@ -204,13 +161,13 @@ class CreatePostSeleniumTest extends TestCase
         // check we on edit post
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "EDIT POST"
             )
         );
 
         // change title
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[1]/input'))
+        $this->driver->findElement(WebDriverBy::xpath('//input[@id=(//label[text()="Title"]/@for)]'))
             ->clear()
             ->sendKeys('change post title');
 
@@ -218,28 +175,28 @@ class CreatePostSeleniumTest extends TestCase
         $content = $this->driver->executeScript('return tinyMCE.activeEditor.getContent()');
         $this->driver->executeScript('tinyMCE.activeEditor.setContent("'.$content.' append text '.'")');
 
-        // remove first tag? click on "x"
-        $edit_button = $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[3]/span/span[1]/span/ul/li[1]/span'));
+        // remove first tag? click on "x" - select2 js lib
+        $edit_button = $this->driver->findElement(WebDriverBy::xpath('//*[@id="tags_edit_post"]/span/span[1]/span/ul/li[1]/span'));
         $p = $edit_button->getLocation();
         $this->driver->executeScript("window.scroll(" . $p->getX() . "," . ($p->getY() - 200) . ");");
         $edit_button->click();
 
         // and add new tag
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[3]/span/span[1]/span/ul/li/input'))
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="tags_edit_post"]/span/span[1]/span/ul/li/input'))
             ->sendKeys('my new tag' . WebDriverKeys::ENTER);
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/form/div[6]/input'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="save_edit_post_button"]'))->click();
 
         // check we on my posts
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "USER: SAMPLENAME"
             )
         );
 
         // check existing "my new tag"
-        $my_tag = $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div[2]/div/div[2]/ul/li[6]/a'))->getText();
+        $my_tag = $this->driver->findElement(WebDriverBy::xpath('//*[@id="tags_widget"]/ul/li[6]/a'))->getText();
         $this->assertEquals($my_tag, 'my new tag');
     }
 
@@ -259,23 +216,23 @@ class CreatePostSeleniumTest extends TestCase
         $this->driver->findElement(WebDriverBy::id('email'))->sendKeys('sample_email@gmail.com');
         $this->driver->findElement(WebDriverBy::id('password'))->sendKeys('secret');
 
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="blog-full-width"]/div/div/div/div/div/div/div/div/form/div[4]/div/button'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="login_button"]'))->click();
 
         // check we on home page
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "HOME PAGE"
             )
         );
 
         // click on my posts
-        $this->driver->findElement(WebDriverBy::xpath('//*[@id="top-bar"]/div/nav/div/ul/li[3]/a'))->click();
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="my_posts"]'))->click();
 
         // check we on my posts
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "USER: SAMPLENAME"
             )
         );
@@ -289,7 +246,7 @@ class CreatePostSeleniumTest extends TestCase
         // check we on my posts
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::textToBePresentInElement(
-                WebDriverBy::xpath('/html/body/section[1]/div/div/div/div/h2[1]'),
+                WebDriverBy::xpath('//*[@id="global_page_title"]'),
                 "USER: SAMPLENAME"
             )
         );

@@ -8,7 +8,7 @@ Global Page Section Start
             <div class="col-md-12">
                 <div class="block">
 
-                    <h2>{{ !empty($page_title) ? $page_title : "" }}</h2>
+                    <h2 id="global_page_title">{{ !empty($page_title) ? $page_title : "" }}</h2>
                     <h2>@yield('page_title')</h2>
 
                     @if(isset($breadcrumb))

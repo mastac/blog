@@ -6,18 +6,19 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProfileTest extends TestCase
 {
-    protected static $user;
-
     /**
      * Create user
+     *
+     * @return void
      */
     public function testCreateUser()
     {
-        self::$user = factory(App\User::class)->create();
+        $this->createUserAndCheckUserExist();
     }
 
+
     /**
-     * A basic test example.
+     * Change all fields
      *
      * @return void
      */
@@ -34,6 +35,11 @@ class ProfileTest extends TestCase
             ->seeInField('last_name', 'change_last_name');
     }
 
+    /**
+     * Set all fields is empty
+     *
+     * @return void
+     */
     public function testProfileChangeAllSetEmpty()
     {
         $this->actingAs(self::$user)
@@ -47,13 +53,14 @@ class ProfileTest extends TestCase
             ->see('The last name field is required.');
     }
 
+    /**
+     * Delete user
+     *
+     * @return void
+     */
     public function testDeleteUser()
     {
-        $userId = self::$user->id;
-        $user = \App\User::find(self::$user->id);
-        $user->destroy(self::$user->id);
-        $this->dontSeeInDatabase('users', ['id' => $userId]);
-        $this->assertDirectoryNotExists(storage_path('app/public/' . $userId));
+        $this->deleteUserAndCheckUserExist();
     }
 
 }
