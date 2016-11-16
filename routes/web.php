@@ -57,6 +57,8 @@ Route::post('posts/store', 'PostController@store');
 Route::get('posts/edit/{id}', 'PostController@edit');
 Route::get('posts/delete/{id}', 'PostController@destroy');
 
+Route::get('ajax/posts/{state}/{post_id}', 'PostController@setLikeAndDislike');
+
 // Search
 Route::post('posts/{search}', 'PostController@searchRedirect');
 Route::get('posts/search/{search}', 'PostController@search');
@@ -91,5 +93,7 @@ Route::get('user/{username}/search/{search}/scroll/{skip}', 'UserController@scro
  */
 Route::post('comment/add', 'CommentController@store');
 Route::get('comments/{id}', 'CommentController@getComments');
+
+Route::get('ajax/comments/{state}/{comment_id}', 'CommentController@setLikeAndDislike');
 
 Route::get('test', 'PostController@test');

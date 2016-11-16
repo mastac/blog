@@ -26,6 +26,7 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+
     /**
      * Relation post and comments as hasMany
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -35,6 +36,16 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+
+    /**
+     * Relation posts and likes as morphMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likable');
+    }
+
     /**
      * Get attribute tag_list
      * @return mixed
@@ -42,6 +53,16 @@ class Post extends Model
     public function getTagListAttribute()
     {
         return $this->tags->pluck('name')->toArray();
+    }
+
+    public function getDislikeAttribute()
+    {
+        return $this->likes()->whereState('dislike')->count();
+    }
+
+    public function getLikeAttribute()
+    {
+        return $this->likes()->whereState('like')->count();
     }
 
     /**

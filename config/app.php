@@ -193,6 +193,11 @@ return [
          * http://socialiteproviders.github.io/providers/vkontakte/
          */
         SocialiteProviders\Manager\ServiceProvider::class,
+
+        /**
+         * https://datatables.yajrabox.com/
+         */
+        Yajra\Datatables\DatatablesServiceProvider::class,
     ],
 
     /*
@@ -245,7 +250,9 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 
-        'SocialiteProviders' => SocialiteProviders\Manager\ServiceProvider::class
+        'SocialiteProviders' => SocialiteProviders\Manager\ServiceProvider::class,
+
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];

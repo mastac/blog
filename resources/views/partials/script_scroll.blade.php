@@ -40,6 +40,30 @@
             }// enabledScroll
         });
 
+        // Like & Dislike
+
+        $('body').on('click', 'a.like', function(e){
+
+            $.ajax({
+                url: '/ajax/posts/like/' + $(e.target).data().postid,
+                success: function(data) {
+                    $(e.target).parent().find('a.like').html('&nbsp;' + data.like);
+                    $(e.target).parent().find('a.dislike').html('&nbsp;' + data.dislike);
+                }
+            });
+
+        }).on('click', 'a.dislike', function(e){
+
+            $.ajax({
+                url: '/ajax/posts/dislike/' + $(e.target).data().postid,
+                success: function(data) {
+                    $(e.target).parent().find('a.like').html('&nbsp;' + data.like);
+                    $(e.target).parent().find('a.dislike').html('&nbsp;' + data.dislike);
+                }
+            });
+
+        });
+
     })
 
 </script>

@@ -110,6 +110,28 @@
 
             });
 
+            $('body').on('click', 'a.like', function(e){
+
+                $.ajax({
+                    url: '/ajax/comments/like/' + $(e.target).data().commentid,
+                    success: function(data) {
+                        $(e.target).parent().find('a.like').html('&nbsp;' + data.like);
+                        $(e.target).parent().find('a.dislike').html('&nbsp;' + data.dislike);
+                    }
+                });
+
+            }).on('click', 'a.dislike', function(e){
+
+                $.ajax({
+                    url: '/ajax/comments/dislike/' + $(e.target).data().commentid,
+                    success: function(data) {
+                        $(e.target).parent().find('a.like').html('&nbsp;' + data.like);
+                        $(e.target).parent().find('a.dislike').html('&nbsp;' + data.dislike);
+                    }
+                });
+
+            });
+
         });
 
     </script>

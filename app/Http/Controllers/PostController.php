@@ -227,8 +227,26 @@ class PostController extends Controller
             ->with('search_url', 'home');
     }
 
+    public function setLikeAndDislike(Request $request, $state, $post_id)
+    {
+        $likes = \App\Post::with('likes')->find($post_id)->likes()->firstOrNew(['ip' => $request->ip()]);
 
-    public function test()
+        if ($state === 'like')
+            $likes->state = 'like';
+        elseif($state === 'dislike')
+            $likes->state = 'dislike';
+        else
+            $likes->state = 'neutral';
+
+        $likes->save();
+
+        $post = \App\Post::find($post_id);
+
+        return \Response::json(['id' => $post->id,'like' => $post->like, 'dislike' => $post->dislike]);
+    }
+
+
+    public function test(Request $request)
     {
         //<iframe width="854" height="480" src="https://www.youtube.com/embed/Qjjqu8-MxHU" frameborder="0" allowfullscreen></iframe>
 //        $id = $this->youtube_id_from_url('https://www.youtube.com/watch?v=Qjjqu8-MxHU');
@@ -238,6 +256,48 @@ class PostController extends Controller
 //        $s = factory(\App\Post::class)->create(['user_id' => '1']);
 //        Auth::loginUsingId(1);
 //        return redirect("/");
+
+//        $likes1 = \App\Post::with('likes')->find(99);
+//
+////        $likes2 = \App\Post::with('likes')->find(99)->likes()->getQuery()->delete();
+//
+//        $likes = \App\Post::with('likes')->find(99)->likes()
+//            ->getQuery()->whereIp($request->ip())->first();//->updateOrCreate(['state' => 'like', 'ip' => $request->ip()]);
+//
+//        App
+//
+//        if (is_null($likes)) {
+//            $likes = \App\Post::with('likes')->find(99)->likes()->create(['state' => 'like', 'ip' => $request->ip()]);
+//        } else {
+//            $likes = \App\Post::with('likes')->find(99)->likes()->updateOrCreate(['id' => $likes->id, 'state' => 'like', 'ip' => $request->ip()]);
+//        }
+//
+//        dd($likes1, $likes);
+
+//        $likes = \App\Post::with('likes')->find(99)->likes()->whereIp($request->ip())
+//            ->create(['state'=>'like', 'ip' => $request->ip()]);
+
+        $likes = \App\Post::with('likes')->find(99)->likes()->firstOrNew(['ip' => $request->ip()]);
+        $likes->state = 'like';
+        $likes->save();
+//
+//        $dislike_count = \App\Post::with('likes')->find(99)->likes()->whereState('dislike')->count();
+//        $like_count = \App\Post::with('likes')->find(99)->likes()->whereState('like')->count();
+
+        $post = \App\Post::find(99);
+
+
+        $likes = \App\Comment::with('likes')->find(473)->likes()->firstOrNew(['ip' => $request->ip()]);
+        $likes->state = 'like';
+        $likes->save();
+
+        $comment = \App\Comment::find(473);
+
+        dd($comment/*, $comment->like, $comment->dislike*/);
+//
+//        $likes = \App\Like::whereIp($request->ip())->get();
+
+        dd($likes);
     }
 
 }
