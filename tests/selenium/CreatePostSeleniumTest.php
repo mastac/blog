@@ -148,12 +148,12 @@ class CreatePostSeleniumTest extends SeleniumTestCase
         // check button edit visible
         $this->driver->wait(5)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(
-                WebDriverBy::xpath('//*[@id="posts"]/article/div/a[1]')
+                WebDriverBy::xpath('//*[@id="posts"]/article/div/div/a[1]')
             )
         );
 
         // Элемент залазит под верхушку, это ..опа
-        $edit_button = $this->driver->findElement(WebDriverBy::xpath('//*[@id="posts"]/article/div/a[2]'));
+        $edit_button = $this->driver->findElement(WebDriverBy::xpath('//*[@id="posts"]/article/div/div/a[2]'));
         $p = $edit_button->getLocation();
         $this->driver->executeScript("window.scroll(" . $p->getX() . "," . ($p->getY() - 200) . ");");
         $edit_button->click();
@@ -238,7 +238,7 @@ class CreatePostSeleniumTest extends SeleniumTestCase
         );
 
         // Элемент залазит под верхушку, это ..опа
-        $delete_button = $this->driver->findElement(WebDriverBy::xpath('//*[@id="posts"]/article/div/a[3]'));
+        $delete_button = $this->driver->findElement(WebDriverBy::xpath('//*[@id="posts"]/article/div/div/a[3]'));
         $p = $delete_button->getLocation();
         $this->driver->executeScript("window.scroll(" . $p->getX() . "," . ($p->getY() - 200) . ");");
         $delete_button->click();
