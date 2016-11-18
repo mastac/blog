@@ -97,3 +97,27 @@ Route::get('comments/{id}', 'CommentController@getComments');
 Route::get('ajax/comments/{state}/{comment_id}', 'CommentController@setLikeAndDislike');
 
 Route::get('test', 'PostController@test');
+
+
+/**
+ * Admin
+ */
+Route::get('/admin/login', array('as' => 'login', 'uses' => 'Admin\AuthController@showLoginForm'))
+    ->name('admin.login')->middleware('admin.guest');
+
+Route::post('/admin/login', array('as' => 'login', 'uses' => 'Admin\AuthController@login'));
+
+Route::post('/admin/logout', 'Admin\AuthController@logout')->name('logout');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['admin'], 'namespace' => 'Admin'], function ()
+{
+
+    Route::get('/', 'IndexController@home');
+    Route::get('home', 'IndexController@home')->name('admin.home');
+
+    Route::resource('users', 'UserController');
+    Route::resource('posts', 'PostController');
+    Route::resource('comments', 'CommentController');
+    Route::resource('tags', 'TagController');
+
+});

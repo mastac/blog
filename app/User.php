@@ -74,4 +74,18 @@ class User extends Authenticatable
             Storage::disk('public')->deleteDirectory($user_id);
         }
     }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * Get attribute tag_list
+     * @return mixed
+     */
+    public function getFirstLastName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

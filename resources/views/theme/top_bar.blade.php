@@ -31,10 +31,13 @@ Header Section Start
                         <li><a href="{{url('/login')}}" id="sign_in">Sign in</a></li>
                     @else
                         <li><a href="{{ url('/') }}">Home</a></li>
+                        @if (Auth::user()->isAdmin())
+                            <li><a href="{{ url('/admin') }}">Admin</a></li>
+                        @endif
                         <li><a href="{{ url('/posts/create') }}" id="create_post">Create post</a></li>
                         <li><a href="{{ url('user', \Auth::user()->name) }}" id="my_posts">My Posts</a></li>
                         <li><a href="{{ url('/profile') }}">Profile </a></li>
-                        <li><a href="{{ url('/logout') }}"onclick="event.preventDefault();
+                        <li><a href="{{ url('/logout') }}" onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();" id="logout_link">
                                 Logout
                             </a></li>
