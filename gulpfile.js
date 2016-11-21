@@ -17,7 +17,7 @@ const elixir = require('laravel-elixir');
 /**
  * Copy template of frontend and backend to public for display
  */
-/*elixir(mix => {
+elixir(mix => {
 // frontend theme
     mix.copy(
         'resources/timer-html-master',
@@ -28,7 +28,7 @@ const elixir = require('laravel-elixir');
         'resources/adminlte',
         'public/theme/backend'
     );
-});*/
+});
 
 /**
  * Frontend
@@ -53,6 +53,21 @@ elixir(mix => {
         'resources/assets/css/main.css',
 
     ],'public/css/blog.css');
+
+    // fonts
+    // bootstrap fonts
+    mix.copy(
+        'resources/adminlte/bootstrap/fonts',
+        'public/fonts'
+    );
+    mix.copy(
+        'resources/timer-html-master/fonts',
+        'public/build/fonts'
+    );
+    mix.copy(
+        'resources/timer-html-master/fonts',
+        'public/fonts'
+    );
 
     mix.scripts([
         'vendor/modernizr-2.6.2.min.js',
@@ -84,19 +99,19 @@ elixir(mix => {
     mix.styles([
         '../../../resources/adminlte/bootstrap/css/bootstrap.css',
         '../../../public/css/admin/adminlte.css',
-        '../../../resources/adminlte/plugins/iCheck/square/blue.css'
+        '../../../resources/adminlte/plugins/iCheck/square/blue.css',
     ], 'public/css/admin/login.css');
 
     // bootstrap fonts
     mix.copy(
         'resources/adminlte/bootstrap/fonts',
-        'public/css/admin/fonts'
+        'public/css/fonts'
     );
 
     // bootstrap fonts, build
     mix.copy(
         'resources/adminlte/bootstrap/fonts',
-        'public/build/css/admin/fonts'
+        'public/build/css/fonts'
     );
 
    // iCheck-square-blue
@@ -127,14 +142,18 @@ elixir(mix => {
         '../../../resources/adminlte/bootstrap/css/bootstrap.css',
         '../../../public/css/admin/adminlte.css',
         '../../../public/css/admin/adminlte-skin-blue.css',
-        '../../../resources/adminlte/plugins/iCheck/flat/blue.css'
+        '../../../resources/adminlte/plugins/iCheck/flat/blue.css',
+        '../../../resources/assets/css/select2.min.css',
+        '../../../resources/assets/admin/css/override.css'
+
     ], 'public/css/admin/main.css');
 
     mix.scripts([
         '../../../resources/adminlte/plugins/jQuery/jquery-2.2.3.min.js',
         '../../../resources/adminlte/bootstrap/js/bootstrap.min.js',
         '../../../resources/adminlte/plugins/iCheck/icheck.min.js',
-        '../../../resources/adminlte/dist/js/app.js'
+        '../../../resources/adminlte/dist/js/app.js',
+        '../../../resources/assets/js/select2.min.js'
     ] , 'public/js/admin/main.js');
 
     mix.version(['public/css/admin/main.css', 'public/js/admin/main.js']);

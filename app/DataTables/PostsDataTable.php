@@ -16,8 +16,18 @@ class PostsDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->withTrashed()
-            ->addColumn('action', 'path.to.action.view')
+            ->editColumn('name', function($post){
+                return \Html::link('/admin/posts/' . $post->id, $post->name/*, ['target' => '_blank']*/);
+            })
+            ->editColumn('text', function($post){
+                return str_limit($post->text, 100);
+            })
+            ->addColumn('action', function ($post) {
+                return view('admin.columns.crud_action')
+                    ->with('entry_id', $post->id)
+                    ->with('part_url', 'admin/posts')
+                    ;
+            })
             ->make(true);
     }
 
@@ -28,8 +38,7 @@ class PostsDataTable extends DataTable
      */
     public function query()
     {
-        $query = Post::select();
-
+        $query = Post::withCount('comments')->withCount('tags');
         return $this->applyScopes($query);
     }
 
@@ -43,9 +52,24 @@ class PostsDataTable extends DataTable
         return $this->builder()
                     ->columns($this->getColumns())
                     ->ajax('')
-                    ->addAction(['width' => '80px'])
-                    ->parameters($this->getBuilderParameters());
-        ;
+                    ->addAction(['width' => '100px'])
+                    ->parameters(
+//                        $this->getBuilderParameters()
+                        [
+                        'dom'          => 'Bfrtip',
+                        'buttons'      => ['create'],
+//                        'initComplete' => "function () {
+//                                    this.api().columns().every(function () {
+//                                        var column = this;
+//                                        var input = document.createElement(\"input\");
+//                                        $(input).appendTo($(column.footer()).empty())
+//                                        .on('change', function () {
+//                                            column.search($(this).val(), false, false, true).draw();
+//                                        });
+//                                    });
+//                                }",
+                        ]
+                    );
     }
 
     /**
@@ -58,8 +82,11 @@ class PostsDataTable extends DataTable
         return [
             'id',
             'name',
-            'created_at',
-            'updated_at',
+            'text',
+            'comments_count' => ['searchable' => false],
+            'tags_count' => ['searchable' => false],
+            'created_at' => ['width' => '100px'],
+            'updated_at' => ['width' => '100px'],
         ];
     }
 

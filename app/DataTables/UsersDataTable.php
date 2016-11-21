@@ -17,7 +17,15 @@ class UsersDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'path.to.action.view')
+            ->editColumn('name', function($user){
+                return \Html::link('/admin/users/' . $user->id, $user->name/*, ['target' => '_blank']*/);
+            })
+            ->addColumn('action', function ($user) {
+                return view('admin.columns.crud_action')
+                    ->with('entry_id', $user->id)
+                    ->with('part_url', 'admin/users')
+                    ;
+            })
             ->make(true);
     }
 
@@ -28,7 +36,21 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $query = User::select();
+        $query = User::select([
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.first_name',
+            'users.last_name',
+            'users.activated',
+            'users.is_admin',
+            \DB::raw('count(posts.user_id) as count_posts'),
+            'users.created_at',
+            'users.updated_at'
+        ])
+            ->leftJoin('posts', 'posts.user_id', '=', 'users.id')
+            ->groupBy('users.id')
+        ;
 
         return $this->applyScopes($query);
     }
@@ -40,14 +62,27 @@ class UsersDataTable extends DataTable
      */
     public function html()
     {
-        return $this->builder()
+         return $this->builder()
                     ->columns($this->getColumns())
                     ->ajax('')
-                    ->addAction(['width' => '80px'])
-                    ->parameters($this->getBuilderParameters());
+                    ->addAction()
+                    ->parameters([
+                        'dom'          => 'Bfrtip',
+                        'buttons'      => ['create'],
+//                        'initComplete' => "function () {
+//                            this.api().columns().every(function () {
+//                                var column = this;
+//                                var input = document.createElement(\"input\");
+//                                $(input).appendTo($(column.footer()).empty())
+//                                .on('change', function () {
+//                                    column.search($(this).val(), false, false, true).draw();
+//                                });
+//                            });
+//                        }",
+                    ]);
     }
 
-    /**
+    /**$this->getBuilderParameters()
      * Get columns.
      *
      * @return array
@@ -55,10 +90,14 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'name', 'email', 'first_name', 'last_name',
-            'created_at',
-            'updated_at',
+            'id' => ['data' => 'id', 'name' => 'users.id', 'searchable' => false],
+            'name' => ['data' => 'name', 'name' => 'users.name'],
+            'email', 'first_name', 'last_name',
+            'count_posts' => ['searchable' => false],
+            'created_at' => ['data' => 'created_at', 'name' => 'users.created_at', 'width' => '100px'],
+            'updated_at' => ['data' => 'updated_at', 'name' => 'users.updated_at', 'width' => '100px'],
+            'activated',
+            'is_admin'
         ];
     }
 

@@ -15,7 +15,6 @@ class UserController extends Controller
      */
     public function index(UsersDataTable $dataTable)
     {
-//        return view('admin.users');
         return $dataTable->render('admin.users');
     }
 
@@ -26,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -37,7 +36,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_data = $request->all();
+        $user_data['password'] = bcrypt($user_data['password']);
+        \App\User::create($user_data);
+        return redirect('/admin/users');
     }
 
     /**
@@ -48,7 +50,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return 'user show';
     }
 
     /**
@@ -59,7 +61,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return 'user edit';
     }
 
     /**
@@ -71,7 +73,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return 'user update';
     }
 
     /**
@@ -82,6 +84,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return 'user destroy';
     }
 }
