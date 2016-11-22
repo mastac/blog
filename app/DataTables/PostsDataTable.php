@@ -22,6 +22,12 @@ class PostsDataTable extends DataTable
             ->editColumn('text', function($post){
                 return str_limit($post->text, 100);
             })
+            ->editColumn('author', function($post){
+                return $post->user->first_name . ' ' . $post->user->last_name;
+            })
+            ->editColumn('likes', function($post){
+                return $post->like . ' / ' . $post->dislike;
+            })
             ->addColumn('action', function ($post) {
                 return view('admin.columns.crud_action')
                     ->with('entry_id', $post->id)
@@ -38,7 +44,8 @@ class PostsDataTable extends DataTable
      */
     public function query()
     {
-        $query = Post::withCount('comments')->withCount('tags');
+        $query = Post::withCount('comments')->withCount('tags')->with('user');//->withCount('likes');
+
         return $this->applyScopes($query);
     }
 
@@ -50,26 +57,26 @@ class PostsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->columns($this->getColumns())
-                    ->ajax('')
-                    ->addAction(['width' => '100px'])
-                    ->parameters(
-//                        $this->getBuilderParameters()
-                        [
-                        'dom'          => 'Bfrtip',
-                        'buttons'      => ['create'],
-//                        'initComplete' => "function () {
-//                                    this.api().columns().every(function () {
-//                                        var column = this;
-//                                        var input = document.createElement(\"input\");
-//                                        $(input).appendTo($(column.footer()).empty())
-//                                        .on('change', function () {
-//                                            column.search($(this).val(), false, false, true).draw();
-//                                        });
-//                                    });
-//                                }",
-                        ]
-                    );
+            ->columns($this->getColumns())
+            ->ajax('')
+            ->addAction(['width' => '100px'])
+            ->parameters(
+                [
+                'order'   => [[0, 'desc']],
+                'dom'          => 'Bfrtip',
+                'buttons'      => ['create'],
+                'initComplete' => "function () {
+                            this.api().columns().every(function () {
+                                var column = this;
+                                var input = document.createElement(\"input\");
+                                $(input).appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }",
+                ]
+            );
     }
 
     /**
@@ -83,10 +90,12 @@ class PostsDataTable extends DataTable
             'id',
             'name',
             'text',
-            'comments_count' => ['searchable' => false],
-            'tags_count' => ['searchable' => false],
+            'author' => ['searchable' => false, 'orderable' => false],
+            'likes' => ['searchable' => false, 'title' => 'Like / Dislike', 'orderable' => false],
+//            'comments_count' => ['searchable' => false],
+//            'tags_count' => ['searchable' => false],
             'created_at' => ['width' => '100px'],
-            'updated_at' => ['width' => '100px'],
+//            'updated_at' => ['width' => '100px'],
         ];
     }
 

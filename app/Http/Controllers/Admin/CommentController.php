@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
     public function index(CommentsDataTable $dataTable)
     {
-        return $dataTable->render('admin.comments');
+        return $dataTable->render('admin.comments', ['page_title'=>'Comments', 'page_subtitle' => 'list']);
     }
 
     /**
@@ -26,7 +26,14 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        $posts = \App\Post::all()->pluck('name', 'id')->map(function($item, $key){
+            return str_limit($item, 100);
+        });
+
+        return view('admin.comments.create')
+            ->with('posts', $posts)
+            ->with('page_title', 'Comments')
+            ->with('page_subtitle', 'create');
     }
 
     /**
@@ -37,7 +44,8 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        \App\Comment::create($request->all());
+        return redirect('/admin/comments');
     }
 
     /**
@@ -48,7 +56,12 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        $comment = \App\Comment::find($id);
+        return view('admin.comments.show')
+            ->with('comment', $comment)
+            ->with('page_title', 'Comments')
+            ->with('page_subtitle', 'show');
+
     }
 
     /**
@@ -59,7 +72,14 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $posts = \App\Post::all()->pluck('name', 'id')->map(function($item, $key){
+            return str_limit($item, 100);
+        });
+
+        $comment = \App\Comment::find($id);
+        return view('admin.comments.edit')->with('posts', $posts)->with('comment', $comment)
+            ->with('page_title', 'Comments')
+            ->with('page_subtitle', 'edit');
     }
 
     /**
@@ -71,7 +91,10 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = \App\Comment::find($id);
+        $comment->update($request->all());
+
+        return redirect('/admin/comments');
     }
 
     /**
@@ -82,6 +105,7 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \App\Comment::destroy($id);
+        return redirect('/admin/comments');
     }
 }

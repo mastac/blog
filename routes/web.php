@@ -112,12 +112,11 @@ Route::post('/admin/logout', 'Admin\AuthController@logout')->name('logout');
 Route::group(['prefix' => 'admin', 'middleware' => ['admin'], 'namespace' => 'Admin'], function ()
 {
 
-    Route::get('/', 'IndexController@home');
-    Route::get('home', 'IndexController@home')->name('admin.home');
+    Route::get('/', 'UserController@index');
+    Route::get('home', 'UserController@index')->name('admin.home');
 
     Route::resource('users', 'UserController');
     Route::resource('posts', 'PostController');
     Route::resource('comments', 'CommentController');
-    Route::resource('tags', 'TagController');
 
 });

@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Repositories\ActivationRepository;
+use Carbon\Carbon;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 
 use App\User;
+use Illuminate\Notifications\Messages\MailMessage;
 
 /**
  * Class ActivationService
@@ -43,9 +45,11 @@ class ActivationService
         $token = $this->activationRepo->createActivation($user);
 
         $link = route('user.activate', $token);
-        $message = sprintf('Activate account <a href="%s">%s</a>', $link, $link);
 
-        $this->mailer->raw($message, function (Message $m) use ($user) {
+        $message = (new MailMessage)
+            ->action('Activate', $link);
+
+        $this->mailer->send($message->view, $message->data(), function (Message $m) use ($user) {
             $m->to($user->email)->subject('Activation mail');
         });
     }

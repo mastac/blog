@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\User;
 use App\SocialAccount;
+use Carbon\Carbon;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 
 class SocialAccountService
@@ -18,8 +19,6 @@ class SocialAccountService
         if($account) {
             return $account->user;
         } else {
-
-//            dd($provideruser->getRaw());
 
             $account = new SocialAccount([
                 'provider_user_id' => $provideruser->getId(),

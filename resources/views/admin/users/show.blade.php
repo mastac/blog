@@ -8,30 +8,32 @@
         <div class="box-body">
 
             <div class="form-group">
-                <strong>Name:</strong> {{$post->name}}
+                Name: {{$user->name}}
             </div>
 
             <div class="form-group">
-                <strong>Text:</strong> {{$post->text}}
+                Email: {{$user->email}}
             </div>
 
             <div class="form-group" id="tags_edit_post">
-                <strong>Tags:</strong>
-                {{implode(', ', $post->tag_list)}}
+                First name: {{$user->first_name}}
             </div>
 
             <div class="form-group">
-                <strong>Image:</strong> {!! Html::image('storage/' . $post->user_id . '/' . $post->image) !!}
+                Last name: {{$user->last_name}}
             </div>
 
             <div class="form-group">
-                <strong>Youtube:</strong> {{$post->youtube}}
+                Activated: {!! ($user->activated) ? "Yes": "NO" !!}
+            </div>
+
+            <div class="form-group">
+                Is admin: {!! ($user->is_admin) ? "Yes": "NO" !!}
             </div>
 
         </div>
         <!-- /.box-body -->
     </div>
     <!-- /.box -->
-
 
 @endsection

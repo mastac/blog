@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function socialAccount()
+    {
+        return $this->hasOne(SocialAccount::class);
+    }
+
     public function getPostsByUsername($username)
     {
         $user = $this->whereName($username)->firstOrFail();

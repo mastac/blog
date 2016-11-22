@@ -21,7 +21,7 @@ class PostController extends Controller
      */
     public function index(PostsDataTable $dataTable)
     {
-        return $dataTable->render('admin.posts');
+        return $dataTable->render('admin.posts', ['page_title'=>'Posts', 'page_subtitle' => 'list']);
     }
 
     /**
@@ -32,7 +32,9 @@ class PostController extends Controller
     public function create()
     {
         $tags = Tag::pluck('name', 'name');
-        return view('admin.posts.create')->with('tags', $tags);
+        return view('admin.posts.create')->with('tags', $tags)
+            ->with('page_title', 'Posts')
+            ->with('page_subtitle', 'create');
     }
 
     /**
@@ -97,7 +99,9 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('admin.posts.show')->with('post', $post);
+        return view('admin.posts.show')->with('post', $post)
+            ->with('page_title', 'Posts')
+            ->with('page_subtitle', 'show');
     }
 
     /**
@@ -115,7 +119,8 @@ class PostController extends Controller
             $tags = Tag::pluck('name', 'name');
 
             return view('admin.posts.edit', ['post' => $post, 'tags' => $tags])
-                ->with('page_title', 'Edit post');
+                ->with('page_title', 'Posts')
+                ->with('page_subtitle', 'edit');
         } else {
             return abort('404');
         }

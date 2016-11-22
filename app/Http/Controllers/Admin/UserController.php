@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\UsersDataTable;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
      */
     public function index(UsersDataTable $dataTable)
     {
-        return $dataTable->render('admin.users');
+        return $dataTable->render('admin.users', ['page_title'=>'Users', 'page_subtitle'=>'list']);
     }
 
     /**
@@ -25,7 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('admin.users.create')
+            ->with('page_title', 'Users')
+            ->with('page_subtitle', 'create');
     }
 
     /**
@@ -38,7 +41,7 @@ class UserController extends Controller
     {
         $user_data = $request->all();
         $user_data['password'] = bcrypt($user_data['password']);
-        \App\User::create($user_data);
+        User::create($user_data);
         return redirect('/admin/users');
     }
 
@@ -46,11 +49,14 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-        return 'user show';
+        $user = \App\User::find($id);
+        return view('admin.users.show')->with('user', $user)
+            ->with('page_title', 'Users')
+            ->with('page_subtitle', 'show');
     }
 
     /**
@@ -61,7 +67,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return 'user edit';
+        $user = User::with('socialAccount')->find($id);
+        return view('admin.users.edit')->with('user', $user)
+            ->with('page_title', 'Users')
+            ->with('page_subtitle', 'edit');
     }
 
     /**
@@ -73,7 +82,27 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return 'user update';
+        $user = User::find($id);
+        $attributes = $request->all();
+
+        // Password
+        if (isset($attributes['password']) && empty($attributes['password'])) {
+            $attributes['password'] = bcrypt($attributes['password']);
+        }
+
+        // Is admin
+        if (!isset($attributes['is_admin'])) {
+            $attributes['is_admin'] = false;
+        }
+
+        // Activated
+        if (!isset($attributes['activated'])) {
+            $attributes['activated'] = false;
+        }
+
+        $user->update($attributes);
+
+        return redirect('/admin/users');
     }
 
     /**
@@ -84,6 +113,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return 'user destroy';
+        \App\User::findOrFail($id)->destroy($id);
+        return redirect('admin/users');
     }
 }

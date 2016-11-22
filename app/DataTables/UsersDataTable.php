@@ -17,8 +17,8 @@ class UsersDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('name', function($user){
-                return \Html::link('/admin/users/' . $user->id, $user->name/*, ['target' => '_blank']*/);
+            ->editColumn('full_name', function($user){
+                return \Html::link('/admin/users/' . $user->id, $user->first_name . ' ' . $user->last_name);
             })
             ->addColumn('action', function ($user) {
                 return view('admin.columns.crud_action')
@@ -26,6 +26,7 @@ class UsersDataTable extends DataTable
                     ->with('part_url', 'admin/users')
                     ;
             })
+            ->removeColumn('updated_at')
             ->make(true);
     }
 
@@ -45,10 +46,12 @@ class UsersDataTable extends DataTable
             'users.activated',
             'users.is_admin',
             \DB::raw('count(posts.user_id) as count_posts'),
+            'user_activations.created_at as activated_at',
             'users.created_at',
             'users.updated_at'
         ])
             ->leftJoin('posts', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('user_activations', 'user_activations.user_id', '=', 'users.id')
             ->groupBy('users.id')
         ;
 
@@ -65,24 +68,26 @@ class UsersDataTable extends DataTable
          return $this->builder()
                     ->columns($this->getColumns())
                     ->ajax('')
-                    ->addAction()
+                    ->addAction(['width' => 150])
                     ->parameters([
                         'dom'          => 'Bfrtip',
                         'buttons'      => ['create'],
-//                        'initComplete' => "function () {
-//                            this.api().columns().every(function () {
-//                                var column = this;
-//                                var input = document.createElement(\"input\");
-//                                $(input).appendTo($(column.footer()).empty())
-//                                .on('change', function () {
-//                                    column.search($(this).val(), false, false, true).draw();
-//                                });
-//                            });
-//                        }",
+                        'initComplete' => "function () {
+                            this.api().columns().every(function () {
+                                var column = this;
+                                var input = document.createElement(\"input\");
+                                $(input).appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }",
                     ]);
     }
 
-    /**$this->getBuilderParameters()
+
+
+    /**
      * Get columns.
      *
      * @return array
@@ -91,13 +96,15 @@ class UsersDataTable extends DataTable
     {
         return [
             'id' => ['data' => 'id', 'name' => 'users.id', 'searchable' => false],
-            'name' => ['data' => 'name', 'name' => 'users.name'],
-            'email', 'first_name', 'last_name',
+            'email',
+            'full_name' => ['searchable' => false, 'orderable' => false],
+//            'name' => ['data' => 'name', 'name' => 'users.name'],
             'count_posts' => ['searchable' => false],
-            'created_at' => ['data' => 'created_at', 'name' => 'users.created_at', 'width' => '100px'],
-            'updated_at' => ['data' => 'updated_at', 'name' => 'users.updated_at', 'width' => '100px'],
-            'activated',
-            'is_admin'
+            'activated_at' => ['searchable' => false],
+            'created_at' => ['data' => 'created_at', 'name' => 'users.created_at', 'width' => '100', 'title'=>'Register At'],
+//            'updated_at' => ['data' => 'updated_at', 'name' => 'users.updated_at', 'width' => '100px'],
+//            'activated',
+//            'is_admin'
         ];
     }
 

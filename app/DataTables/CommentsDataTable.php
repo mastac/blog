@@ -16,7 +16,15 @@ class CommentsDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'path.to.action.view')
+            ->editColumn('comment', function($comment){
+                return \Html::link('/admin/comments/' . $comment->id, str_limit($comment->comment, 100));
+            })
+            ->addColumn('action', function ($comment) {
+                return view('admin.columns.crud_action')
+                    ->with('entry_id', $comment->id)
+                    ->with('part_url', 'admin/comments')
+                    ;
+            })
             ->make(true);
     }
 
@@ -40,10 +48,26 @@ class CommentsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->columns($this->getColumns())
-                    ->ajax('')
-                    ->addAction(['width' => '80px'])
-                    ->parameters($this->getBuilderParameters());
+            ->columns($this->getColumns())
+            ->ajax('')
+            ->addAction(['width' => '100px'])
+            ->parameters(
+                [
+                    'order'   => [[0, 'desc']],
+                    'dom'          => 'Bfrtip',
+                    'buttons'      => ['create'],
+                    'initComplete' => "function () {
+                                    this.api().columns().every(function () {
+                                        var column = this;
+                                        var input = document.createElement(\"input\");
+                                        $(input).appendTo($(column.footer()).empty())
+                                        .on('change', function () {
+                                            column.search($(this).val(), false, false, true).draw();
+                                        });
+                                    });
+                                }",
+                ]
+            );
     }
 
     /**
@@ -55,9 +79,10 @@ class CommentsDataTable extends DataTable
     {
         return [
             'id',
-            'name', 'email', 'comment', 'post_id',
-            'created_at',
-            'updated_at',
+            'name',
+            'email',
+            'comment',
+            'created_at'
         ];
     }
 

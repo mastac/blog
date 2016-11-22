@@ -1,0 +1,1 @@
+Activate account <a href="{{$link}}">{{$link}}</a>
