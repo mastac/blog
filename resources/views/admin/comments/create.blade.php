@@ -11,7 +11,6 @@
 
         {!! Form::open(['url' => 'admin/comments', 'method' => 'POST', 'files' => true]) !!}
 
-
         <div class="form-group">
             {!! Form::label('Post') !!}
             {!! Form::select('post_id', $posts, '', ['class' => 'form-control', 'id' => 'Post']) !!}

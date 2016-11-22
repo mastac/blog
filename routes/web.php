@@ -94,6 +94,7 @@ Route::get('user/{username}/search/{search}/scroll/{skip}', 'UserController@scro
 Route::post('comment/add', 'CommentController@store');
 Route::get('comments/{id}', 'CommentController@getComments');
 
+Route::get('ajax/comments/delete/{comment_id}', 'CommentController@deleteComment');
 Route::get('ajax/comments/{state}/{comment_id}', 'CommentController@setLikeAndDislike');
 
 Route::get('test', 'PostController@test');

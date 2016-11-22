@@ -12,7 +12,7 @@ class CommentController extends Controller
 
     public function getComments($id)
     {
-        $comments = Comment::wherePostId($id)->get();
+        $comments = Comment::with('post')->wherePostId($id)->get();
         return view('partials.comments')->with('comments', $comments);
     }
 
@@ -44,5 +44,15 @@ class CommentController extends Controller
         $comment = \App\Comment::find($comment_id);
 
         return \Response::json(['id' => $comment->id,'like' => $comment->like, 'dislike' => $comment->dislike]);
+    }
+
+    public function deleteComment(Request $request, $id)
+    {
+        $status = false;
+        $comment = \App\Comment::with('post')->find($id);
+        if ($comment->post->user_id == \Auth::id()) {
+            $status = $comment->delete();
+        }
+        return \Response::json(['commentid' => $id, 'status' => $status]);
     }
 }

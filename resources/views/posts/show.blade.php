@@ -78,12 +78,12 @@
 
         $(function(){
 
+            // load comments to post after loading page
             $.ajax({
                 url: '/comments/{{$post->id}}',
                 success: function(data) {
                     $('#comments').html(data);
                 }
-
             });
 
         });
