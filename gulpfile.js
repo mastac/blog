@@ -135,25 +135,66 @@ elixir(mix => {
 elixir(mix => {
 
     mix.less([
+        '../../../bower_components/bootstrap/less/bootstrap.less',
+
+        // Theme
+        '../../../resources/adminlte/build/bootstrap-less/mixins.less',
+        '../../../resources/adminlte/build/bootstrap-less/variables.less',
+        '../../../resources/adminlte/build/less/AdminLTE.less',
         '../../../resources/adminlte/build/less/skins/skin-blue.less'
-    ], 'public/css/admin/adminlte-skin-blue.css');
+
+    ], 'public/css/admin/adminlte-admin.css');
+
+    mix.sass([
+        '../../../bower_components/datatables-buttons/css/buttons.dataTables.scss',
+        '../../../bower_components/datatables-buttons/css/buttons.bootstrap.scss'
+    ] , 'public/css/admin/buttons.dataTables.css');
 
     mix.styles([
-        '../../../resources/adminlte/bootstrap/css/bootstrap.css',
-        '../../../public/css/admin/adminlte.css',
-        '../../../public/css/admin/adminlte-skin-blue.css',
-        '../../../resources/adminlte/plugins/iCheck/flat/blue.css',
-        '../../../resources/assets/css/select2.min.css',
+
+        // '../../../resources/assets/css/select2.min.css',
+        '../../../bower_components/select2/dist/css/select2.min.css',
+
+        // '../../../resources/adminlte/bootstrap/css/bootstrap.css',
+        '../../../public/css/admin/adminlte-admin.css', // compile above - theme
+        // '../../../public/css/admin/adminlte-skin-blue.css',
+
+        // '../../../resources/adminlte/plugins/iCheck/flat/blue.css',
+
+        '../../../resources/assets/admin/css/dataTables.bootstrap.css',
+        '../../../public/css/admin/buttons.dataTables.css',
+
         '../../../resources/assets/admin/css/override.css'
 
     ], 'public/css/admin/main.css');
 
+    mix.copy(
+        'resources/assets/admin/images/loading_bar.gif',
+        'public/images'
+    );
+
     mix.scripts([
-        '../../../resources/adminlte/plugins/jQuery/jquery-2.2.3.min.js',
-        '../../../resources/adminlte/bootstrap/js/bootstrap.min.js',
-        '../../../resources/adminlte/plugins/iCheck/icheck.min.js',
-        '../../../resources/adminlte/dist/js/app.js',
-        '../../../resources/assets/js/select2.min.js'
+        '../../../bower_components/jquery/dist/jquery.min.js',
+        // '../../../resources/adminlte/plugins/jQuery/jquery-2.2.3.min.js',
+
+        // '../../../resources/adminlte/bootstrap/js/bootstrap.min.js',
+        '../../../bower_components/bootstrap/dist/js/bootstrap.min.js',
+
+        // '../../../resources/adminlte/plugins/iCheck/icheck.min.js',
+
+        // '../../../resources/assets/js/select2.min.js'
+        '../../../bower_components/select2/dist/js/select2.min.js',
+
+        // Datatables
+        '../../../bower_components/datatables/media/js/jquery.dataTables.js',
+        '../../../bower_components/datatables/media/js/dataTables.bootstrap.js',
+        // Datatables button
+        '../../../bower_components/datatables-buttons/js/dataTables.buttons.js',
+        '../../../bower_components/datatables-buttons/js/buttons.bootstrap.js',
+        '../../../public/vendor/datatables/buttons.server-side.js',
+
+        // Theme
+        '../../../resources/adminlte/dist/js/app.js'
     ] , 'public/js/admin/main.js');
 
     mix.version(['public/css/admin/main.css', 'public/js/admin/main.js']);

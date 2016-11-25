@@ -6,6 +6,9 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -66,5 +69,19 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest('login');
+    }
+
+    protected function renderHttpException(HttpException $e) {
+
+        $status = $e->getStatusCode();
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json([], $status);
+        } else if(request()->is('admin/*')) { //Chane to your backend your !
+            return response()->view("admin/errors.{$status}", ['exception' => $e], $status, $e->getHeaders());
+        }else {
+            return response()->view("errors.{$status}", ['exception' => $e], $status, $e->getHeaders());
+        }
+
     }
 }

@@ -8,3 +8,4 @@ Homestead.yaml
 /public/build/css
 /public/build/js
 /public/build/rev-manifest.json
+/bower_components/

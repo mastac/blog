@@ -1,0 +1,23 @@
+{
+  "name": "blog",
+  "description": "Blog on Laravel 5.3",
+  "main": "",
+  "authors": [
+    "Dmitry Drobotov <ddrobotov@beetsoft.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mastac/blog",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "datatables": "^1.10.12",
+    "datatables-buttons": "^1.2.2",
+    "bootstrap": "^3.3.7",
+    "select2": "^4.0.3"
+  }
+}

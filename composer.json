@@ -12,7 +12,13 @@
         "socialiteproviders/vkontakte": "^2.0",
         "laracasts/flash": "^2.0",
         "oldtimeguitarguy/laravel-mocks-file-uploads": "^1.0",
-        "yajra/laravel-datatables-oracle": "^6.21"
+        "yajra/laravel-datatables-oracle": "^6.21",
+        "barryvdh/laravel-snappy" : "*",
+        "tecnickcom/tcpdf": "*",
+        "mpdf/mpdf": "*",
+        "dompdf/dompdf": "*",
+        "h4cc/wkhtmltopdf-amd64": "*",
+        "h4cc/wkhtmltoimage-amd64": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

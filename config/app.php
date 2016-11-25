@@ -198,6 +198,8 @@ return [
          * https://datatables.yajrabox.com/
          */
         Yajra\Datatables\DatatablesServiceProvider::class,
+
+        Barryvdh\Snappy\ServiceProvider::class,
     ],
 
     /*
@@ -253,6 +255,9 @@ return [
         'SocialiteProviders' => SocialiteProviders\Manager\ServiceProvider::class,
 
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

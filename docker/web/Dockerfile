@@ -39,6 +39,9 @@ RUN apt-get clean
 RUN npm install -g npm
 RUN npm install -g gulp bower
 
+# to Snappy need install
+RUN apt-get install -y libxrender1 libfontconfig
+
 # Install Composer
 RUN curl -s http://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \

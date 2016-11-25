@@ -2,7 +2,11 @@
 
 @section('content')
 
-    {!! $dataTable->table() !!}
+    <div class="box">
+        <div class="box-body">
+            {!! $dataTable->table(['class' => "table table-bordered table-striped"]) !!}
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -25,16 +29,10 @@
 
 @endsection
 
-@push('stylesheet-head')
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
-@endpush
-
 @push('scripts-footer')
-<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-<script src="/vendor/datatables/buttons.server-side.js"></script>
+
 {!! $dataTable->scripts() !!}
+
 <script type="text/javascript">
     $(function(){
         $('#confirmDelete').on('show.bs.modal', function (event) {

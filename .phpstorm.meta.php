@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-11-16.
+    * Generated on 2016-11-25.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -57,6 +57,10 @@ namespace PHPSTORM_META {
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'snappy.pdf' instanceof \Barryvdh\Snappy\IlluminateSnappyPdf,
+            'snappy.pdf.wrapper' instanceof \Barryvdh\Snappy\PdfWrapper,
+            'snappy.image' instanceof \Barryvdh\Snappy\IlluminateSnappyImage,
+            'snappy.image.wrapper' instanceof \Barryvdh\Snappy\ImageWrapper,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -185,6 +189,10 @@ namespace PHPSTORM_META {
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'snappy.pdf' instanceof \Barryvdh\Snappy\IlluminateSnappyPdf,
+            'snappy.pdf.wrapper' instanceof \Barryvdh\Snappy\PdfWrapper,
+            'snappy.image' instanceof \Barryvdh\Snappy\IlluminateSnappyImage,
+            'snappy.image.wrapper' instanceof \Barryvdh\Snappy\ImageWrapper,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -313,6 +321,10 @@ namespace PHPSTORM_META {
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'snappy.pdf' instanceof \Barryvdh\Snappy\IlluminateSnappyPdf,
+            'snappy.pdf.wrapper' instanceof \Barryvdh\Snappy\PdfWrapper,
+            'snappy.image' instanceof \Barryvdh\Snappy\IlluminateSnappyImage,
+            'snappy.image.wrapper' instanceof \Barryvdh\Snappy\ImageWrapper,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -441,6 +453,10 @@ namespace PHPSTORM_META {
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'snappy.pdf' instanceof \Barryvdh\Snappy\IlluminateSnappyPdf,
+            'snappy.pdf.wrapper' instanceof \Barryvdh\Snappy\PdfWrapper,
+            'snappy.image' instanceof \Barryvdh\Snappy\IlluminateSnappyImage,
+            'snappy.image.wrapper' instanceof \Barryvdh\Snappy\ImageWrapper,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,

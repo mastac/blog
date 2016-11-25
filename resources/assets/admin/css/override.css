@@ -2,15 +2,3 @@
 #tag_list {
     width: 100%;
 }
-
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border: 1px solid #aaa;
-}
-
-.select2-container--default .select2-selection--multiple {
-    border-radius: inherit;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice{
-    color: inherit;
-}

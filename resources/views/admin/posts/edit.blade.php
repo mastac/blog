@@ -12,7 +12,7 @@
         {!! Form::open(['url' => '/admin/posts/' . $post->id, 'method' => 'put', 'files' => true]) !!}
 
         <div class="form-group">
-            {!! Form::label('Title') !!}
+            {!! Form::label('Name') !!}
             {!! Form::text('name', $post->name, ['class' => 'form-control', 'id' => 'Title']) !!}
         </div>
 
@@ -42,8 +42,8 @@
         </div>
 
         <div class="form-group">
-            {!! Form::submit('Save', ['class' => 'btn btn-details', 'id' => 'create_post_button']) !!}
-            {!! Html::link('admin/posts', 'Cancel', ['class' => 'btn btn-details']) !!}
+            {!! Form::submit('Save', ['class' => 'btn btn-primary', 'id' => 'create_post_button']) !!}
+            {!! Html::link('admin/posts', 'Cancel', ['class' => 'btn btn-default']) !!}
         </div>
 
         {!! Form::close() !!}

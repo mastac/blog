@@ -68,20 +68,17 @@ class UsersDataTable extends DataTable
          return $this->builder()
                     ->columns($this->getColumns())
                     ->ajax('')
-                    ->addAction(['width' => 150])
+                    ->addAction(['width' => 150, 'exportable' => false, 'printable' => false])
                     ->parameters([
-                        'dom'          => 'Bfrtip',
-                        'buttons'      => ['create'],
-                        'initComplete' => "function () {
-                            this.api().columns().every(function () {
-                                var column = this;
-                                var input = document.createElement(\"input\");
-                                $(input).appendTo($(column.footer()).empty())
-                                .on('change', function () {
-                                    column.search($(this).val(), false, false, true).draw();
-                                });
-                            });
-                        }",
+                        'dom'          => "<'row'<'col-sm-6'Br><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'li><'col-sm-7'p>>",
+                        'buttons'      => [
+                            'create',
+                            'excel',
+                            'csv',
+                            'pdf',
+                            'print'
+                        ],
+                        'stateSave' => true
                     ]);
     }
 

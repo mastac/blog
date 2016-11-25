@@ -93,4 +93,13 @@ class User extends Authenticatable
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    /**
+     * Get attribute tag_list
+     * @return mixed
+     */
+    public function getFirstLastNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

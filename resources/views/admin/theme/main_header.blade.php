@@ -18,9 +18,10 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{url('/')}}">Site</a></li>
                 <!-- User Account: style can be found in dropdown.less -->
+                @if(!is_null(\Auth::user()))
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs">{{\Auth::user()->getFirstLastName()}}</span>
+                        <span class="hidden-xs">{{\Auth::user()->first_last_name}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- Menu Footer-->
@@ -38,6 +39,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
             </ul>
         </div>
     </nav>
